@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  background-image: url('./Fon2.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Використовуємо Tailwind CSS для задання стилів анімації */
+@keyframes scaleInTw {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleInTw 0.5s ease-out;
+}
+
+
+/* login */
+
+.from__field {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  color: #fff;
+  padding: 7px 0;
+  background: transparent;
+}
+
+.from__field::placeholder {
+  color: transparent;
+}
+
+.from__field:placeholder-shown~.from__label {
+  font-size: 1.2rem;
+  cursor: text;
+  top: 20px;
+}
+
+.from__field_form:placeholder-shown~.from__label_form {
+  background-color: transparent;
+  border: 0;
+  font-size: 1.1rem;
+  cursor: text;
+  top: 8px;
+}
+
+.from__field_id:placeholder-shown~.from__label_id {
+  background-color: transparent;
+  border: 0;
+  font-size: 1.1rem;
+  cursor: text;
+  top: 6px;
+  left: 148px;
+}
+
+.from__field_newName:placeholder-shown~.from__label_newName {
+  background-color: transparent;
+  border: 0;
+  font-size: 1.1rem;
+  cursor: text;
+  top: 8px;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(100%);
+}
+
