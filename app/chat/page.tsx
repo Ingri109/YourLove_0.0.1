@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import Chat from "../../components/app_components/chat";
 
 
-export default async function ChatPage() {
+export async function ChatPage() {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
 

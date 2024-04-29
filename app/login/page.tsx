@@ -8,7 +8,7 @@ import DiscordSVG from '@/assets/icon/ic--round-discord.svg';
 import GoogleSVG from '@/assets/icon/bxl--google.svg';
 import GitHubSVG from '@/assets/icon/mingcute--github-line.svg';
 
-export default function Login() {
+export function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [userSession, setUserSession] = useState<any>(null);

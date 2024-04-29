@@ -18,7 +18,7 @@ interface UserInfo {
 }
 
 
-export default async function AccountPage() {
+export async function AccountPage() {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
 
