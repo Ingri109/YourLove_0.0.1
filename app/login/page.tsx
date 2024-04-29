@@ -11,7 +11,7 @@ import GitHubSVG from '@/assets/icon/mingcute--github-line.svg';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [userSession, setUserSession] = useState(null);
+    const [userSession, setUserSession] = useState<any>(null);
     const [checkLogin, setCheckLogin] = useState(true);
     const [progress, setProgress] = useState('bg-color2_2 w-full');
     const router = useRouter()

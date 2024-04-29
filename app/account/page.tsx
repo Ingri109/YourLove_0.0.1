@@ -27,7 +27,7 @@ export default async function AccountPage() {
     if (!session) redirect('/login');
     const { data: userData } = await supabase.from('users_info').select('*').eq('id', session?.user.id || '');
     const userInfoArray: UserInfo[] = userData || [];
-    let partnerInfoData = [];
+    let partnerInfoData: any = [];
     let requestsInfoData = [];
 
     if (userInfoArray && userInfoArray.length > 0) {

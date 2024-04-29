@@ -24,11 +24,13 @@ interface UserInfo {
     "what-does": string | null
 }
 
-interface InfoUserProps {
+interface AccountProps {
     Userdata: UserInfo[];
+    partnerData: UserInfo[];
+    requestsInfo: any; // Замініть `any` на біль конкретний тип, якщо можливо
 }
 
-export default function Account({ Userdata, partnerData, requestsInfo }: { Userdata: InfoUserProps, partnerData: InfoUserProps }) {
+export default function Account({ Userdata, partnerData, requestsInfo }: AccountProps) {
     const [opentModal, setOpenModal] = useState(false);
     const [chekModel, setChekModel] = useState('');
 

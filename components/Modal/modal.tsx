@@ -23,7 +23,14 @@ interface InfoUserProps {
     Userdata: UserInfo[];
 }
 
-const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: { Userdata: InfoUserProps, chekModel: string; onClose: () => void }) => {
+interface ModalProps {
+    Userdata: any;
+    chekModel: string;
+    onClose: () => void;
+    requestsInfo: any; 
+}
+
+const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
     const backdrop = useRef<HTMLDivElement>(null);
     const modalRootRef = useRef<HTMLDivElement | null>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -46,10 +53,13 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: { Userdata: InfoU
 
     const acceptRequest = async () => {
         debugger
-        const { error: error_user } = await supabase.from('users_info').update({ id_partner: requestsInfo[0].id_partner, engaged: true }).eq('id', requestsInfo[0].id_user);
-        const { error: error_partner } = await supabase.from('users_info').update({ id_partner: requestsInfo[0].id_user, engaged: true }).eq('id', requestsInfo[0].id_partner);
-        const { error: error_delete1 } = await supabase.from('requests').delete().eq('id_user', Userdata[0].id)
-        const { error: error_delete2 } = await supabase.from('requests').delete().eq('id_user', Userdata[0].id_partner)
+        if (Userdata.Userdata[0]) {
+            const { error: error_user } = await supabase.from('users_info').update({ id_partner: requestsInfo[0].id_partner, engaged: true }).eq('id', requestsInfo[0].id_user);
+            const { error: error_partner } = await supabase.from('users_info').update({ id_partner: requestsInfo[0].id_user, engaged: true }).eq('id', requestsInfo[0].id_partner);
+            const { error: error_delete1 } = await supabase.from('requests').delete().eq('id_user', Userdata[0].id)
+            const { error: error_delete2 } = await supabase.from('requests').delete().eq('id_user', Userdata[0].id_partner)
+
+        }
 
     }
 
@@ -82,7 +92,7 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: { Userdata: InfoU
             console.error('SaveName error:', error);
         }
     };
-    
+
 
     debugger
     console.log()
@@ -102,8 +112,8 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: { Userdata: InfoU
                 </form>
             }
             {chekModel === 'Name' &&
-                    <NewName onClose={onClose} SaveName={SaveName}/>
-                
+                <NewName onClose={onClose} SaveName={SaveName} />
+
             }
             {chekModel === 'Requests' &&
                 <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-20 backdrop-blur-2xl rounded-[16px] py-6 px-10 space-y-2 animate-scaleIn">
