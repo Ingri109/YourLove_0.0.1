@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
 
 
-export async function EventsPage() {
+const EventsPage = async () => {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
 
@@ -22,3 +22,5 @@ export async function EventsPage() {
     <Events />
   )
 }
+
+export default EventsPage;

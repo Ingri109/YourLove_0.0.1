@@ -1,12 +1,12 @@
 'use client';
 
 import Modal from "@/components/Modal/modal";
-import InfoUser from "./account/infoUser";
+import InfoUser from "./infoUser";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import AddPartner from "./account/addpartner";
-import InfoPartner from "./account/infoPartner";
+import AddPartner from "./addpartner";
+import InfoPartner from "./infoPartner";
 import Link from "next/link";
 
 interface UserInfo {

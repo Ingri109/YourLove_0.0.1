@@ -18,7 +18,7 @@ interface UserInfo {
 }
 
 
-export async function AccountPage() {
+const AccountPage = async () =>  {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
 
@@ -49,3 +49,5 @@ export async function AccountPage() {
     </>
   )
 }
+
+export default AccountPage;

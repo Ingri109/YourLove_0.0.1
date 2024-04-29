@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
 
-export async function yourLovePage() {
+ const yourLovePage = async () => {
 
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
@@ -18,3 +18,4 @@ export async function yourLovePage() {
     <YourLove />
   )
 }
+export default yourLovePage;
