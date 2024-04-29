@@ -3,7 +3,7 @@ import Image from "next/image";
 import AccountActivSVG from '@/assets/img/accountActiv.svg';
 import AccountSVG from '@/assets/img/account.svg';
 
-export default function NavigationItem({ to, pageName, currentPage, onClick }: { to: string; pageName: string, currentPage: string; onClick: (pageName: string) => void }) {
+ const  NavigationItem = ({ to, pageName, currentPage, onClick }: { to: string; pageName: string, currentPage: string; onClick: (pageName: string) => void }) => {
   return (
     <>
       {
@@ -29,3 +29,4 @@ export default function NavigationItem({ to, pageName, currentPage, onClick }: {
     </>
   )
 }
+export default NavigationItem;

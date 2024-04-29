@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from 'next/image';
 import Kiss from "@/assets/img/Kiss.png"
 
-export default function Home() {
+const Home = () => {
   return (
    <>
    <div className='flex justify-center items-center'>
@@ -27,3 +27,5 @@ export default function Home() {
             </>
   );
 }
+
+export default Home;

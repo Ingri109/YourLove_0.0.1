@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import ModalEvents from '../ModalEvent';
 
 
-export default function Human() {
+const Human = () => {
     const [openModalEvent, setOpenModalEvent] = useState<boolean>(false);
     const [nameModal, setNameModal] = useState<string>('');
    
@@ -33,3 +33,5 @@ export default function Human() {
         </>
     );
 }
+
+export default Human;
