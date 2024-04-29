@@ -5,7 +5,6 @@ import InfoUser from "./infoUser";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Database } from "@/lib/database.types";
 import AddPartner from "./addpartner";
 import InfoPartner from "./infoPartner";
 import Link from "next/link";
@@ -34,7 +33,7 @@ export default function Account({ Userdata, partnerData, requestsInfo }: Account
     const [opentModal, setOpenModal] = useState(false);
     const [chekModel, setChekModel] = useState('');
 
-    const supabase = createClientComponentClient<Database>();
+    const supabase = createClientComponentClient();
     const router = useRouter();
 
     const handleLogout = async () => {

@@ -3,12 +3,11 @@
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Database } from "@/lib/database.types";
 
 export default function Chat() {
 
     const [users, setUser] = useState<object | null>(null);
-    const supabase = createClientComponentClient<Database>();
+    const supabase = createClientComponentClient();
     const router = useRouter();
 
     useEffect(() => {

@@ -1,7 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Account from "./account";
-import { Database } from "@/lib/database.types";
 import { redirect } from 'next/navigation';
 
 interface UserInfo {
@@ -20,7 +19,7 @@ interface UserInfo {
 
 
 export default async function AccountPage() {
-  const supabase = createServerComponentClient<Database>({ cookies });
+  const supabase = createServerComponentClient({ cookies });
 
   const fetchUserData = async () => {
     const { data: { session } } = await supabase.auth.getSession();
