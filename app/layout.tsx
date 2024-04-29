@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigaton from "@/components/Navigation/Navigaton";
-
+import { Suspense } from 'react'
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,10 +20,12 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navigaton/>
-        {children}
-        <div id="modal-root"></div>
-        </body>
+        <Suspense fallback={<p>Login...</p>}>
+          <Navigaton />
+          {children}
+          <div id="modal-root"></div>
+        </Suspense>
+      </body>
     </html>
   );
 }

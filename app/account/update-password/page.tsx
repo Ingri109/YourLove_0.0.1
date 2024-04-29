@@ -3,7 +3,8 @@ import { cookies } from "next/headers"
 
 const UpdatePassword = async () => {
     const new_password = '111222333';
-    const supabase = createServerComponentClient({cookies})
+    const cookieStore = cookies()
+    const supabase = createServerComponentClient({ cookies: () => cookieStore })
     await supabase.auth.updateUser({ password: new_password })
     return(
         <>

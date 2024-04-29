@@ -1,12 +1,13 @@
 'use server';
-import RegisterForm from "./register_form";
+import RegisterForm from "../../components/app_components/register_form";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
 
 export default async function RegisterFormPage() {
-  const supabase = createServerComponentClient({ cookies });
+  const cookieStore = cookies()
+  const supabase = createServerComponentClient({ cookies: () => cookieStore })
   const { data: { session } } = await supabase.auth.getSession();
   const { data } = await supabase.from('users_info').select('*').eq('id', session?.user.id)
   if (!session) redirect('/login')

@@ -55,14 +55,14 @@ export default function Login() {
 
 
     useEffect(() => {
-        async function getSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            setUserSession(session)
-            if (session) {
-                router.push('/');
-            }
-            setLoading(false)
-        }
+        // async function getSession() {
+        //     const { data: { session } } = await supabase.auth.getSession();
+        //     setUserSession(session)
+        //     if (session) {
+        //         router.push('/');
+        //     }
+        //     setLoading(false)
+        // }
 
         if (password.length === 0) {
             setProgress('bg-color2_2 w-full')
@@ -74,8 +74,8 @@ export default function Login() {
             setProgress('bg-[#26C318] w-full')
         }
 
-        getSession();
-    }, [password, router, supabase.auth])
+        // getSession();
+    }, [password, router])
 
 
 
