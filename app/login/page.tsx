@@ -75,7 +75,7 @@ export default function Login() {
         }
 
         getSession();
-    }, [password, router])
+    }, [password, router, supabase.auth])
 
 
 

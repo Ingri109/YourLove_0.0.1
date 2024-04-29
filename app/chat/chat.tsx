@@ -22,7 +22,7 @@ export default function Chat() {
 
         getUser();
 
-    }, [users, router]);
+    }, [users, router, supabase.auth]);
 
 
     if (!users) return null;

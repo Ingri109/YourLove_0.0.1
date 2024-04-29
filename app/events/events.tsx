@@ -22,7 +22,7 @@ export default function Events() {
     }
     getUser();
     
-  }, [users, router]);
+  }, [users, router, supabase.auth]);
   console.log(users)
 
   if (!users) return null;
