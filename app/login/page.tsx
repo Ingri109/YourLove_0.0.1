@@ -22,7 +22,7 @@ const Login = () => {
         const { data } = await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: 'https://your-love-0-0-1.vercel.app//auth/callback'
+                redirectTo: 'http://localhost:3000/auth/callback'
             }
         });
 
@@ -34,7 +34,7 @@ const Login = () => {
         supabase.auth.signInWithOAuth({
             provider: 'discord',
             options: {
-                redirectTo: 'http://localhost:3000/auth/callback'
+                redirectTo: 'https://your-love-0-0-1.vercel.app/auth/callback'
             }
         })
 
@@ -48,7 +48,7 @@ const Login = () => {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                redirectTo: 'http://localhost:3000/auth/callback'
+                redirectTo: 'https://your-love-0-0-1.vercel.app/auth/callback'
             },
         })
     }

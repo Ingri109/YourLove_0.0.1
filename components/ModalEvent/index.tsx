@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import Head from "../body_parts/Head";
 import Hand from "../body_parts/Hand";
 import Body from "../body_parts/Body";
@@ -13,6 +14,7 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
     const [nameAction, setNameAction] = useState<string>('');
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const modalRootRef = useRef<HTMLDivElement | null>(null);
+    const supabase = createClientComponentClient();
 
 
     useEffect(() => {
