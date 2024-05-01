@@ -30,7 +30,7 @@ interface ModalProps {
     requestsInfo: any; 
 }
 
-const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
+const Modal = async ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
     const backdrop = useRef<HTMLDivElement>(null);
     const modalRootRef = useRef<HTMLDivElement | null>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);

@@ -104,9 +104,9 @@ const Login = () => {
         setPassword('');
     }
 
-    if (userSession) {
-        return null
-    }
+    // if (userSession) {
+    //     return null
+    // }
     
     if (loading) {
         return <h1>loading..</h1>

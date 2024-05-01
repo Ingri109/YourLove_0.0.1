@@ -7,7 +7,7 @@ import Leg from "../body_parts/Leg";
 
 
 
-const ModalEvents = ({ name, onClose }: { name: string; onClose: () => void }) => {
+const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) => {
     const backdrop = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(true);
     const [nameAction, setNameAction] = useState<string>('');
