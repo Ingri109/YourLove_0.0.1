@@ -55,14 +55,14 @@ const Login = () => {
 
 
     useEffect(() => {
-        // async function getSession() {
-        //     const { data: { session } } = await supabase.auth.getSession();
-        //     setUserSession(session)
-        //     if (session) {
-        //         router.push('/');
-        //     }
-        //     setLoading(false)
-        // }
+        async function getSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            setUserSession(session)
+            if (session) {
+                router.push('/');
+            }
+            setLoading(false)
+        }
 
         if (password.length === 0) {
             setProgress('bg-color2_2 w-full')
@@ -74,7 +74,7 @@ const Login = () => {
             setProgress('bg-[#26C318] w-full')
         }
 
-        // getSession();
+        getSession();
     }, [password, router])
 
 
@@ -104,9 +104,9 @@ const Login = () => {
         setPassword('');
     }
 
-    // if (userSession) {
-    //     return null
-    // }
+    if (userSession) {
+        return null
+    }
     
     if (loading) {
         return <h1>loading..</h1>
