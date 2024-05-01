@@ -22,7 +22,7 @@ const Login = () => {
         const { data } = await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: 'http://localhost:3000/auth/callback'
+                redirectTo: 'https://your-love-0-0-1.vercel.app//auth/callback'
             }
         });
 
