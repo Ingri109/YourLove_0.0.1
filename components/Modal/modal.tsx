@@ -3,6 +3,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import { createPortal } from 'react-dom';
 import NewName from '../Form/NewName/newName';
 import Requests from '../Form/Requests/requests';
+import NewPassword from '../Form/NewPassword/newPassword';
 import { useRouter } from 'next/navigation';
 
 interface UserInfo {
@@ -27,15 +28,14 @@ interface ModalProps {
     Userdata: any;
     chekModel: string;
     onClose: () => void;
-    requestsInfo: any; 
+    requestsInfo: any;
 }
 
 const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
     const backdrop = useRef<HTMLDivElement>(null);
     const modalRootRef = useRef<HTMLDivElement | null>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);
-    const [newPassword, setNewPassword] = useState('');
-    const [chekPassword, setChekPassword] = useState(true);
+    const [checkSend, setCheckSend] = useState<boolean>(false);
     const supabase = createClientComponentClient();
     const router = useRouter();
 
@@ -75,9 +75,14 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
     };
 
     const ResetPassworld = async () => {
-        await supabase.auth.resetPasswordForEmail(Userdata[0].email, {
-            redirectTo: 'http://localhost:3000/account/update-password',
-        })
+        try {
+            const {data: resetData , error} = await supabase.auth.resetPasswordForEmail(Userdata[0].email, {
+                redirectTo: `${window.location.href}/reset`
+            });
+            setCheckSend(true)
+        } catch (error) {
+            console.error('ResetPassworld error:', error);
+        }
 
     }
 
@@ -93,30 +98,17 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
         }
     };
 
-
-    debugger
-    console.log()
-
     return isMounted ? createPortal(
-        <div ref={backdrop} onClick={onClick} className="fixed top-0 left-0 flex items-center justify-center h-full w-full bg-black bg-opacity-40 z-20">
+        <div ref={backdrop} onClick={onClick} className="fixed top-0 left-0 flex items-center justify-center h-full w-full bg-black bg-opacity-40 backdrop-blur-[2px] z-20">
             {chekModel === 'Password' &&
-                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-20 backdrop-blur-2xl rounded-[16px] py-6 px-10 space-y-2 animate-scaleIn">
-                    <h1 className="text-center text-white text-[28px] font-bold tracking-normal mt-[10px]">Змінити пароль</h1>
-                    <div className="flex flex-col justify-center space-y-2 mt-[30px]">
-                        <div className="flex flex-col justify-center items-start space-y-[0.5]px ">
-                            <p className="text-center text-white text-[14px] font-bold tracking-tight ml-[10px]">Ведіть новий пароль</p>
-                            <input type="password" placeholder="Password" onChange={(e) => setNewPassword(e.target.value)} className=" bg-color5 border border-color4 rounded-[12px] text-black text-center py-[1px] px-[2px]"></input>
-                        </div>
-                    </div>
-                    <button type="button" onClick={ResetPassworld} className={`flex items-center bg-color2 px-[20px] py-[3px] border-2 border-color4 rounded-[14px] text-color4 text-center text-[16px] font-semibold transition ease-in-out delay-150`}>Зберегти</button>
-                </form>
+                <NewPassword ResetPassworld={ResetPassworld} checkSend={checkSend} />
             }
             {chekModel === 'Name' &&
                 <NewName onClose={onClose} SaveName={SaveName} />
 
             }
             {chekModel === 'Requests' &&
-                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-20 backdrop-blur-2xl rounded-[16px] py-6 px-10 space-y-2 animate-scaleIn">
+                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-10 space-y-2 animate-scaleIn">
                     {requestsInfo.length === 0
                         ?
                         <h1 className='text-white text-[28px] font-extrabold tracking-wider'>У вас немає запрошень</h1>
@@ -130,7 +122,7 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
                 </form>
             }
             {chekModel === 'DelRequests' &&
-                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-20 backdrop-blur-2xl rounded-[16px] py-6 px-6 space-y-2 animate-scaleIn">
+                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-6 space-y-2 animate-scaleIn">
                     <h1 className='text-white text-[18px] font-semibold tracking-wider mb-5'>Ви впевнені, що хочете видалити партнера?</h1>
                     <div className='flex justify-center items-center space-x-5'>
                         <button onClick={DelPartner} className='text-ivory text-[16px] font-medium px-4 py-2 bg-color4_1 rounded-xl hover:bg-color4_3 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color4_2'>Так, я хочу видалити</button>

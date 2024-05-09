@@ -40,7 +40,6 @@ const RegisterFormPage = async () => {
     }
   }
 
-  if (!session) redirect('/login')
   if (!data || data.length > 0) redirect('/account');
 
   return (

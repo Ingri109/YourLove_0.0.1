@@ -18,7 +18,7 @@ function NewName({ onClose, SaveName }: { onClose: () => void, SaveName: (newNam
     }
 
     return (
-        <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-20 backdrop-blur-2xl rounded-[16px] py-6 px-10 animate-scaleIn">
+        <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-10 animate-scaleIn">
             <h1 className="text-center text-color4_2 text-[30px] font-extrabold tracking-normal ">Змінити ім’я</h1>
             <div className="flex flex-col justify-center space-y-0.5 w-full mt-[12px]">
                 <p className="text-white text-left text-wrap text-[16px] font-semibold">Ви дійсно бажаєте змінити своє поточне ім’я?</p>
