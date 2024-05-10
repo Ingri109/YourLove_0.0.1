@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Arrow from '@/assets/icon/arrow.svg';
 import DiscordSVG from '@/assets/icon/ic--round-discord.svg';
 import GoogleSVG from '@/assets/icon/bxl--google.svg';
 import GitHubSVG from '@/assets/icon/mingcute--github-line.svg';
@@ -160,11 +161,11 @@ export default function Login() {
 
     return (
         <div className="h-screen flex items-center justify-center p-6">
-            <form className="flex flex-row bg-color3 rounded-lg shadow-md bg-opacity-30 backdrop-blur-[12px] animate-scaleIn">
+            <form className="flex flex-row bg-color3 rounded-xl shadow-md bg-opacity-30 backdrop-blur-[12px] animate-scaleIn md:rounded-lg">
 
                 {resetPassword ?
-                    <div className=" relative flex flex-col justify-start items-center px-4 py-8">
-                        <div className=" absolute top-0 text-white" onClick={() => setResetPassword(!resetPassword)}> Close</div>
+                    <div className=" relative flex flex-col justify-start items-center justify-items-stretch px-4 py-8">
+                        <div className=" absolute top-[10px] left-[20px]" onClick={() => setResetPassword(!resetPassword)}><Image alt="Close" src={Arrow} className="w-[20px] h-[20px] cursor-pointer rotate-180 md:w-[24px] md:h-[24px]"></Image></div>
                         <h1 className="text-[32px] font-bold text-color1_2 tracking-wide">Змінити пароль</h1>
                         <p className="max-w-[426px] text-[12px] font-medium text-balance text-center text-white tracking-normal mt-2">Для того щоб змінити пароль введіть вашу елктрону скриньку на, яку буде надіслано повідомлення поро відновлення пароля</p>
                         <div className="w-full max-w-[266.6px] relative pt-[15px] mt-[10px]">

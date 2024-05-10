@@ -9,12 +9,12 @@ import AccountSVG from '@/assets/img/account.svg';
       {
         pageName === 'Account' ?
           <Link href="/account">
-            <Image src={currentPage === 'Account' ? AccountActivSVG : AccountSVG} alt={currentPage === 'Account' ? 'Active Account Icon' : 'Account Icon'} className={`rounded-full h-[24px] w-[24px] md:h-[40px] md:w-[40px] ${currentPage === 'Account' ? 'shadow-[0_2px_15px_3px_rgba(0,0,0,0.3)] shadow-color2' : 'hover:shadow-[0_2px_15px_3px_rgba(0,0,0,0.3)] delay-200 ease-out duration-300 hover:shadow-color2'} `}></Image>
+            <Image src={currentPage === 'Account' ? AccountActivSVG : AccountSVG} alt={currentPage === 'Account' ? 'Active Account Icon' : 'Account Icon'} className={`rounded-full h-[32px] w-[32px] md:h-[40px] md:w-[40px] ${currentPage === 'Account' ? 'shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] shadow-color2' : 'shadow-[0_0_12px_2px_rgba(0,0,0,0.4)] shadow-[#FE8ACB] hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] delay-200 ease-out duration-300 hover:shadow-color2'} `}></Image>
           </Link>
           :
           <li>
             <Link
-              className={`flex font-Source items-center justify-center ${currentPage === pageName ? ' text-header_act ' : 'text-header'} text-[8px] py-[3px] px-[4px] ml-[8px] md:ml-[30px] md:text-[16px] transition delay-100 duration-300 relative overflow-hidden hover:text-header_act group `}
+              className={`flex font-Source items-center justify-center ${currentPage === pageName ? ' text-header_act ' : 'text-header'} text-[12px] py-[3px] px-[4px] ml-[8px] md:ml-[30px] md:text-[16px] transition delay-100 duration-300 relative overflow-hidden hover:text-header_act group `}
               href={to}>
               {pageName}
                {currentPage === pageName ?

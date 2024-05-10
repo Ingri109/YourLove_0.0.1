@@ -6,7 +6,7 @@ const Home = () => {
   return (
    <>
    <div className='flex justify-center items-center'>
-                <Link href="/login" className='flex justify-center items-center px-[32px] py-[5px] bg-color1 bg-opacity-60 backdrop-blur border-[1px] border-color4 text-center text-white text-[18px] rounded-xl my-[120px] md:border-2 md:text-[30px] md:px-[60px] md:raunded-2xl md:my-[200px] shadow-[0_3px_10px_3px_rgba(0,0,0,0.35)] transition delay-100 duration-200 ease-in hover:bg-color1_1 hover:bg-opacity-70 hover:backdrop-blur hover:scale-100 hover:-translate-y-0.5 hover:shadow-[0_6px_10px_4px_rgba(0,0,0,0.4)]'>Get Start</Link>
+                <Link href="/login" className='flex justify-center items-center px-[32px] py-[5px] bg-color4_1 bg-opacity-80 backdrop-blur text-center text-white text-[18px] rounded-xl my-[120px] md:text-[30px] md:px-[60px] md:raunded-2xl md:my-[200px] shadow-[0_3px_10px_3px_rgba(0,0,0,0.35)] transition delay-100 duration-200 ease-in hover:bg-color4_3 hover:bg-opacity-70 hover:backdrop-blur hover:scale-105 hover:shadow-[0_6px_10px_4px_rgba(0,0,0,0.4)]'>Get Start</Link>
             </div>
             <div className='flex flex-col items-center justify-center bg-color1 backdrop-blur h-[820px] w-full mb-[180px] xl:h-[980px] md:h-[1000px] sm:h-[750px]'>
                 <div className='flex flex-col items-center justify-between xl:flex-row'>
