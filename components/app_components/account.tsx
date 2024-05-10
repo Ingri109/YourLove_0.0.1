@@ -5,7 +5,7 @@ import InfoUser from "./infoUser";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import AddPartner from "./addPartner";
+import AddPartner from "./addpartner";
 import InfoPartner from "./infoPartner";
 import Link from "next/link";
 
