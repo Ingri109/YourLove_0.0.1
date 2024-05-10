@@ -21,7 +21,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense fallback={<p>Login...</p>}>
+        <Suspense fallback={<p>Login..</p>}>
           <Navigaton />
           {children}
           <div id="modal-root"></div>
