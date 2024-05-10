@@ -3,9 +3,9 @@
 import Modal from "@/components/Modal/modal";
 import InfoUser from "./infoUser";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
-import AddPartner from "./addPartner";
+import AddPartner from "@/components/app_components/addPartner";
 import InfoPartner from "./infoPartner";
 import Link from "next/link";
 
@@ -26,7 +26,7 @@ interface UserInfo {
 interface AccountProps {
     Userdata: UserInfo[];
     partnerData: UserInfo[];
-    requestsInfo: any; // Замініть `any` на біль конкретний тип, якщо можливо
+    requestsInfo: any; 
 }
 
 export default function Account({ Userdata, partnerData, requestsInfo }: AccountProps) {

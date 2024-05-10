@@ -270,9 +270,9 @@ export default function Login() {
                             </>
                         }
                         <div className="flex justify-around items-center mt-[50px] space-x-7 ">
-                            <button className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={GitHud}><Image className="w-[36px] h-[36px]" src={GitHubSVG} alt="GitHub" /></button>
-                            <button className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={Discord}><Image className="w-[36px] h-[36px]" src={DiscordSVG} alt="Discord" /></button>
-                            <button className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={Google}><Image className="w-[36px] h-[36px]" src={GoogleSVG} alt="Google" /></button>
+                            <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={GitHud}><Image className="w-[36px] h-[36px]" src={GitHubSVG} alt="GitHub" /></button>
+                            <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={Discord}><Image className="w-[36px] h-[36px]" src={DiscordSVG} alt="Discord" /></button>
+                            <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={Google}><Image className="w-[36px] h-[36px]" src={GoogleSVG} alt="Google" /></button>
                         </div>
                     </div>
                 }
