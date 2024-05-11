@@ -29,7 +29,7 @@ const Human = () => {
                     <div className="bg-black w-[54px] h-[194px] rounded-b-[40px] shadow-[4px_6px_4px_1px_rgba(0,0,0,0.3)]" onClick={() => { setOpenModalEvent(true); setNameModal('Right Leg') }}></div>
                 </div>
             </div>
-            {openModalEvent && <ModalEvents name={nameModal} onClose={() => { setOpenModalEvent(false); setNameModal('') }} />}
+            {/* {openModalEvent && <ModalEvents name={nameModal} onClose={() => { setOpenModalEvent(false); setNameModal('') }} />} */}
         </>
     );
 }

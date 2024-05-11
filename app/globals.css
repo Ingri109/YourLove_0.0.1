@@ -16,6 +16,13 @@ body {
   background-size: cover;
 }
 
+/* Додати адаптивність для мобільних пристроїв */
+@media screen and (max-width: 768px) {
+  body {
+    background-attachment: scroll;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
