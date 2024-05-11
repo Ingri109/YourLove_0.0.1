@@ -39,7 +39,7 @@ export default function Login() {
         const { data } = await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: `${location.origin}/auth/callback`
+                redirectTo: `${window.location.origin}/auth/callback`
             }
         });
 
@@ -51,7 +51,7 @@ export default function Login() {
         supabase.auth.signInWithOAuth({
             provider: 'discord',
             options: {
-                redirectTo: `${location.origin}/auth/callback`
+                redirectTo: `${window.location.origin}/auth/callback`
             }
         })
 
@@ -65,7 +65,7 @@ export default function Login() {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                redirectTo: `${location.origin}/auth/callback`
+                redirectTo: `${window.location.origin}/auth/callback`
             },
         })
     }
@@ -119,7 +119,7 @@ export default function Login() {
                     email,
                     password,
                     options: {
-                        emailRedirectTo: `${location.origin}/auth/callback`
+                        emailRedirectTo: `${window.location.origin}/auth/callback`
                     }
                 })
             } catch (error) {
