@@ -39,7 +39,7 @@ export default function Login() {
         const { data } = await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: 'http://localhost:3000/auth/callback'
+                redirectTo: `${location.origin}/auth/callback`
             }
         });
 
@@ -51,7 +51,7 @@ export default function Login() {
         supabase.auth.signInWithOAuth({
             provider: 'discord',
             options: {
-                redirectTo: 'https://your-love-0-0-1.vercel.app/auth/callback'
+                redirectTo: `${location.origin}/auth/callback`
             }
         })
 
@@ -65,7 +65,7 @@ export default function Login() {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                redirectTo: 'https://your-love-0-0-1.vercel.app/auth/callback'
+                redirectTo: `${location.origin}/auth/callback`
             },
         })
     }
@@ -179,7 +179,7 @@ export default function Login() {
                         </div>
                         <button
                             type="button"
-                            onClick={handleSignIn}
+                            onClick={ResetPassworld}
                             className="w-full max-w-[266.6px] mt-7 p-3 rounded-md bg-color4 bg-opacity-70 text-[18px] font-medium text-white shadow-color3 shadow-[0_0px_30px_0.5px_rgba(0,0,0,0.2)] hover:scale-105 transition-all duration-75 delay-150 hover:bg-color4_3 hover:bg-opacity-80 focus:outline-none "
                         >
                             Надіслати повідомлення

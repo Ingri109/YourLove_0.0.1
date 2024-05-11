@@ -2,26 +2,25 @@
 
 import Human from "@/components/Human";
 
-export default function YourLove ({}) {
+export default function YourLove({ }) {
 
-    return(
-        <>
-      <div className=" flex flex-col items-center">
-        <div className=" flex flex-col w-[360px] h-[900px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] lg:w-[1160px] lg:h-[620px] sm:m-[60px] animate-scaleIn">
-          <div className="flex justify-between items-center">
-            <div className="flex flex-col justify-start items-start w-[310px] h-[790px] bg-color4_1 rounded-[14px] mt-[25px] ml-[30px] shadow-[0_5px_10px_3px_rgba(0,0,0,0.5)] lg:w-[460px] lg:h-[548px]">
-              <div className='flex flex-row justify-start items-center space-x-4 mt-[10px] ml-[60px]'>
-                <div className='bg-online h-[18px] w-[18px] rounded-full border-[1px] border-black'></div>
-                <h1 className='text-white text-[30px] font-bold'>Твоє Кохання</h1>
-              </div>
-              <h2 className='text-[18px] font-medium text-white ml-[20px] mt-[28px]'>Настрій твого партнера: </h2>
-              <h2 className='text-[18px] font-medium text-white ml-[20px] mt-[8px]'>Що робить: </h2>
+  return (
+    <>
+      <div className="flex justify-center items-center justify-items-stretch">
+        <div className=" flex flex-col justify-between items-center max-h-full max-w-full px-[12px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] mx-[20px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] lg:px-[28px] lg:py-[12px] md:px-[32px] md:py-[18px] md:mx-0 lg:flex-row animate-scaleIn">
+          <div className="flex flex-col justify-start justify-items-stretch items-start  bg-color4_1 rounded-[14px] w-full h-[790px] shadow-[0_5px_10px_3px_rgba(0,0,0,0.5)] lg:w-[460px] lg:h-[548px] md:w-full ">
+            <div className='flex flex-row justify-start items-center w-full ml-[28px] mt-[10px]'>
+              <div className='bg-online h-[18px] w-[18px] rounded-full shadow-[0_0_8px_2px_rgba(0,0,0,0.2)] shadow-online'></div>
+              <h1 className='text-white text-[32px] font-bold tracking-wider ml-[14px]'>Your LOVE</h1>
             </div>
-            <Human />
+            <h2 className='text-[18px] font-medium text-white ml-[20px] mt-[20px]'>Настрій твого партнера: </h2>
+            <h2 className='text-[18px] font-medium text-white ml-[20px] mt-[8px]'>Що робить: </h2>
+            <h2 className='text-[18px] font-medium text-white ml-[20px] mt-[8px]'>Остання дія: Полілувати в губи</h2>
           </div>
+          <Human />
         </div>
       </div>
     </>
-    )
-    
+  )
+
 }
