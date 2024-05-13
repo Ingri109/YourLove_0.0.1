@@ -9,7 +9,7 @@ const Human = () => {
    
     return (
         <>
-            <div className="flex flex-col justify-center items-center w-[500px] h-[600px] ">
+            <div className="flex flex-col justify-center items-center w-full h-[600px] md:w-[500px] md:h-[600px]">
                 {/*head*/}
                 <div className="bg-black rounded-full w-[98px] h-[98px] shadow-[4px_6px_4px_1px_rgba(0,0,0,0.3)]" onClick={() => { setOpenModalEvent(true); setNameModal('Head') }}></div>
                 <div className="flex flex-row justify-start items-start mt-[10px]">
