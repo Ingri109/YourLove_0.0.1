@@ -18,7 +18,7 @@ interface UserInfo {
 }
 
 
-const AccountPage = async () =>  {
+const AccountPage = async () => {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
 
@@ -28,12 +28,12 @@ const AccountPage = async () =>  {
     const { data: userData } = await supabase.from('users_info').select('*').eq('id', session?.user.id || '');
     const userInfoArray: UserInfo[] = userData || [];
     let partnerInfoData: any = [];
-    let requestsInfoData = [];
+    let requestsInfoData: any = [];
 
     if (userInfoArray && userInfoArray.length > 0) {
+      const { data: requestsInfo } = await supabase.from('requests').select('*').eq('id_user', userInfoArray[0].id);
+      requestsInfoData = requestsInfo || [];
       if (userInfoArray[0].id_partner) {
-        const { data: requestsInfo } = await supabase.from('requests').select('*').eq('id_user', userInfoArray[0].id);
-        requestsInfoData = requestsInfo || [];
         const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', userInfoArray[0].id_partner || '');
         partnerInfoData = partnerData || [];
       }

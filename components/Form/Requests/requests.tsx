@@ -1,5 +1,5 @@
 interface RequestInfo {
-    name_user: string; // додайте інші властивості, які має об'єкт requestInfo
+    name_user: string; 
 }
 
 interface AccountProps {
@@ -8,6 +8,7 @@ interface AccountProps {
 }
 
 const Requests: React.FC<AccountProps> = ({ requestsInfo, acceptRequest }) => {
+
     return requestsInfo.map((requestInfo) => (
         <div className="flex flex-col justify-start items-start bg-[#E6BBD0] px-2 py-3 rounded-md shadow-xl text-pretty transition ease-in-out delay-100 hover:scale-105 hover:bg-[#F1D5E3] duration-500 w-[520px]" key={requestInfo.name_user}>
             <h1 className="text-color3 text-[22px] font-bold">Нове запрошеня на створення пари</h1>

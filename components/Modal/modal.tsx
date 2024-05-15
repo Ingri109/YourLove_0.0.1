@@ -38,6 +38,8 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
     const [checkSend, setCheckSend] = useState<boolean>(false);
     const supabase = createClientComponentClient();
     const router = useRouter();
+    debugger
+    console.log(requestsInfo)
 
     useEffect(() => {
         const rootElement = document.getElementById('modal-root');
@@ -52,7 +54,6 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
     }, []);
 
     const acceptRequest = async () => {
-        debugger
         if (Userdata.Userdata[0]) {
             const { error: error_user } = await supabase.from('users_info').update({ id_partner: requestsInfo[0].id_partner, engaged: true }).eq('id', requestsInfo[0].id_user);
             const { error: error_partner } = await supabase.from('users_info').update({ id_partner: requestsInfo[0].id_user, engaged: true }).eq('id', requestsInfo[0].id_partner);
