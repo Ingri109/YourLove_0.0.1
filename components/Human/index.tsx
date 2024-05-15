@@ -9,7 +9,7 @@ const Human = () => {
    
     return (
         <>
-            <div className="flex flex-col justify-center items-center w-full h-[600px] md:w-[500px] md:h-[600px]">
+            <div className="relative flex flex-col justify-center items-center w-full h-[600px] md:w-[500px] md:h-[600px]">
                 {/*head*/}
                 <div className="bg-black rounded-full w-[98px] h-[98px] shadow-[4px_6px_4px_1px_rgba(0,0,0,0.3)]" onClick={() => { setOpenModalEvent(true); setNameModal('Head') }}></div>
                 <div className="flex flex-row justify-start items-start mt-[10px]">
@@ -28,8 +28,9 @@ const Human = () => {
                     {/*right leg*/}
                     <div className="bg-black w-[54px] h-[194px] rounded-b-[40px] shadow-[4px_6px_4px_1px_rgba(0,0,0,0.3)]" onClick={() => { setOpenModalEvent(true); setNameModal('Right Leg') }}></div>
                 </div>
+                {openModalEvent && <ModalEvents name={nameModal} onClose={() => { setOpenModalEvent(false); setNameModal('') }} />}
             </div>
-            {/* {openModalEvent && <ModalEvents name={nameModal} onClose={() => { setOpenModalEvent(false); setNameModal('') }} />} */}
+            
         </>
     );
 }

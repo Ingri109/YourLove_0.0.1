@@ -16,7 +16,6 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
     const modalRootRef = useRef<HTMLDivElement | null>(null);
     const supabase = createClientComponentClient();
 
-
     useEffect(() => {
         const rootElement = document.getElementById('modal-root');
         if (rootElement instanceof HTMLDivElement) {
@@ -45,19 +44,19 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
     };
 
     const partStyles: { [key: string]: string } = {
-        'Head': 'ml-[360px] mt-[100px]',
-        'Left Hand': 'ml-[280px] mt-[130px]',
-        'Body': 'ml-[340px] mt-[160px]',
-        'Right Hand': 'ml-[1130px] mt-[140px]',
-        'Left Leg': 'ml-[320px] mt-[390px]',
-        'Right Leg': 'ml-[1100px] mt-[390px]',
+        'Head': 'top-[20px] left-[6px]',
+        'Left Hand': 'top-[130px] left-[6px]',
+        'Body': 'top-[160px] left-[20px]',
+        'Right Hand': 'top-[130px] right-[6px]',
+        'Left Leg':'top-[390px] left-[6px]',
+        'Right Leg':'top-[390px] right-[6px]',
     };
 
     const partStyle: string = partStyles[name] || '';
 
-    return isMounted ? createPortal(
-        <div ref={backdrop} onClick={onClick} className="fixed top-0 left-0 flex items-start justify-center h-full w-full z-30">
-            <div className={`flex justify-start items-start h-[600px] w-[300px] ${partStyle}`}>
+    return isMounted ? 
+        <div ref={backdrop} onClick={onClick} className="absolute top-0 left-0 flex items-center justify-center h-full w-full z-30">
+            <div className={`absolute ${partStyle}`}>
                 <div className="flex items-center justify-center bg-white bg-opacity-60 backdrop-blur-md py-[4px] px-[4px] rounded-[16px] shadow-color5 shadow-[-1px_2px_20px_2px_rgba(0,0,0,0.3)] animate-scaleIn">
                     <div className="flex flex-col justify-start space-y-[3px] items-center rounded-[12px] shadow-[inset_3px_6px_15px_rgba(0,0,0,0.3)]">
                         {isOpen
@@ -66,7 +65,6 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
                                 <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-t-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Cute') }}>Мілі дії</div>
                                 <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Painful') }}>Болючі дії</div>
                                 <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-b-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Lustful') }}>Хтиві дії</div>
-
                             </>
                             :
                             <>
@@ -75,11 +73,9 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
                         }
                     </div>
                 </div>
-
             </div>
-        </div>, modalRootRef.current!) : null;
-
-
+        </div> : null;
 }
 
 export default ModalEvents;
+
