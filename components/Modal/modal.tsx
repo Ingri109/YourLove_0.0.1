@@ -113,11 +113,11 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
 
             }
             {chekModel === 'Requests' &&
-                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-10 space-y-2 animate-scaleIn">
+                <form className="flex flex-col justify-center items-center w-11/12 py-4 px-1  bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] animate-scaleIn lg:w-auto md:w-10/12 md:py-5 md:px-8">
                     {requestsInfo.length > 0
                         ?
                         <>
-                            <h1 className='text-white text-[28px] font-extrabold tracking-wider mb-5'>Ваші Запрошення</h1>
+                            <h1 className='text-white text-[24px] font-extrabold tracking-wider mb-5 md:text-[28px] sm:text-[26px]'>Ваші Запрошення</h1>
                             <Requests requestsInfo={requestsInfo} acceptRequest={acceptRequest} onClose={onClose}></Requests>
                         </>
                         :
