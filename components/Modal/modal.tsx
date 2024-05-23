@@ -115,7 +115,7 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
             }
             {chekModel === 'Requests' &&
                 <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-10 space-y-2 animate-scaleIn">
-                    {requestsInfo.length === 0
+                    {requestsInfo
                         ?
                         <h1 className='text-white text-[28px] font-extrabold tracking-wider'>У вас немає запрошень</h1>
                         :

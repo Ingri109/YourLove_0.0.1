@@ -29,11 +29,12 @@ const AddPartner = ({ Userdata }: InfoUserProps) => {
 
     const AddYourLove = async () => {
         if (idPartner != Userdata.id) {
+            debugger
             const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', idPartner || '').single();
             let partnerInfoData: any = partnerData || [];
 
             if (partnerInfoData != null) {
-                if (partnerInfoData.length > 0) {
+                
                     if (partnerInfoData.engaged === false) {
                         const { error } = await supabase.from('requests').insert({ id_user: idPartner, id_partner: Userdata.id, name_user: Userdata.name, requests_state: true });
                         console.log(error);
@@ -41,9 +42,7 @@ const AddPartner = ({ Userdata }: InfoUserProps) => {
                     } else if (partnerInfoData.engaged === true) {
                         setMessage('Такий користувач вже зайнятий.');
                     }
-                } else {
-                    setMessage('Такого користувача не існує.');
-                }
+            
             } else {
                 setMessage('Такого користувача не існує.');
             }
