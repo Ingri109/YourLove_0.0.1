@@ -9,8 +9,6 @@ interface AccountProps {
 }
 
 const Requests: React.FC<AccountProps> = ({ requestsInfo, acceptRequest,onClose }) => {
-    debugger
-    console.log(requestsInfo)
 
     return requestsInfo.map((requestInfo) => (
         <div className="flex flex-col justify-start items-start bg-[#E6BBD0] px-2 py-3 rounded-md shadow-xl text-pretty transition ease-in-out delay-100 hover:scale-105 hover:bg-[#F1D5E3] duration-500 w-[520px]" key={requestInfo.name_user}>

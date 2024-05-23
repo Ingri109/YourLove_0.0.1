@@ -28,11 +28,11 @@ const AccountPage = async () => {
     let partnerInfoData: any = [];
     let requestsInfoData: any = [];
 
-    if (userInfoArray && userInfoArray.length > 0) {
-      const { data: requestsInfo } = await supabase.from('requests').select('*').eq('id_user', userInfoArray[0].id).single();
+    if (userInfoArray) {
+      const { data: requestsInfo } = await supabase.from('requests').select('*').eq('id_user', userInfoArray.id);
       requestsInfoData = requestsInfo || [];
-      if (userInfoArray[0].id_partner) {
-        const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', userInfoArray[0].id_partner || '').single();
+      if (userInfoArray.id_partner) {
+        const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', userInfoArray.id_partner || '').single();
         partnerInfoData = partnerData || [];
       }
     }
