@@ -13,25 +13,25 @@ interface UserInfo {
 }
 
 interface InfoUserProps {
-    Userdata: UserInfo[];
+    Userdata: any;
 }
 
 export default function InfoUser({ Userdata }: InfoUserProps) {
     return (
         <>
-            <div className="flex flex-row space-x-4 mt-[20px]">
-                <div className="w-[80px] h-[80px] rounded-full bg-white border border-color4"></div>
-                <div className="flex flex-col justify-start items-start space-y-1">
-                    <h1 className="text-[16px] text-white font-semibold tracking-wide">ID: <span className="text-base text-white font-medium">{Userdata[0].id}</span></h1>
-                    <h1 className="text-xl text-white font-semibold tracking-wide">Name: <span className="text-[22px] text-white font-semibold ">{Userdata[0].name}</span></h1>
+            <div className="flex flex-col justify-start items-start justify-items-stretch w-full mt-[10px] lg:ml-[20px] lg:mx-0 lg:mt-[0px]">
+                <div className="flex flex-row mt-[20px]">
+                    <div className="flex-shrink-0 w-[64px] h-[64px] rounded-full mr-[16px] bg-white lg:w-[80px] lg:h-[80px]"></div>
+                    <div className="flex flex-col justify-start items-start space-y-1">
+                        <h1 className="text-[14px] text-white font-semibold tracking-wide sm:text-[14px]">ID: <span className="text[12px] text-white font-medium sm:text-[16px] sm:font-light">{Userdata.id}</span></h1>
+                        <h1 className="text-lg text-white font-semibold tracking-wide sm:text-xl">Name: <span className="text-[20px] text-white font-semibold sm:text-[22px]">{Userdata.name}</span></h1>
+                    </div>
                 </div>
+                <h2 className="text-[16px] text-white font-semibold tracking-wide mt-[15px] sm:text-[18px]">Email: <span className="text-white font-normal">{Userdata.email}</span></h2>
+                <h2 className="text-[16px] text-white font-semibold tracking-wide mt-[10px] sm:text-[18px]">Дата народження: <span className="text-white font-normal" >{Userdata.age}</span></h2>
+                <h2 className="text-[16px] text-white font-semibold tracking-wide mt-[10px] sm:text-[18px]">Стать: <span className="text-white font-normal">{Userdata.gender === 'Male' ? 'Чоловіча' : Userdata.gender === 'Female' ? 'Жіноча' : Userdata.gender}</span></h2>
             </div>
-            <h2 className="text-[18px] text-white font-semibold tracking-wide mt-[15px]">Email: <span className="text-[18px] text-white font-normal">{Userdata[0].email}</span></h2>
-            <h2 className="text-[18px] text-white font-semibold tracking-wide mt-[10px]">Дата народження: <span className="text-[18px] text-white font-normal" >{Userdata[0].age}</span></h2>
-            <h2 className="text-[18px] text-white font-semibold tracking-wide mt-[10px]">Стать: <span className="text-[18px] text-white font-normal">{Userdata[0].gender === 'Male' ? 'Чоловіча' : Userdata[0].gender === 'Female' ? 'Жіноча' : Userdata[0].gender}</span></h2>
-
         </>
-
     )
 }
 

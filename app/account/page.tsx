@@ -9,12 +9,10 @@ interface UserInfo {
   email: string | null;
   age: string | null;
   gender: string | null;
-  created_at: string;
   id_partner: string | null;
   engaged: boolean
   mood: string | null;
   network: string | null;
-  "what-does": string | null;
 }
 
 
@@ -25,16 +23,16 @@ const AccountPage = async () => {
   const fetchUserData = async () => {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) redirect('/login');
-    const { data: userData } = await supabase.from('users_info').select('*').eq('id', session?.user.id || '');
-    const userInfoArray: UserInfo[] = userData || [];
+    const { data: userData } = await supabase.from('users_info').select('id, name, email, age, gender, id_partner, engaged, mood, network').eq('id', session?.user.id || '').single();
+    const userInfoArray: any = userData || [];
     let partnerInfoData: any = [];
     let requestsInfoData: any = [];
 
     if (userInfoArray && userInfoArray.length > 0) {
-      const { data: requestsInfo } = await supabase.from('requests').select('*').eq('id_user', userInfoArray[0].id);
+      const { data: requestsInfo } = await supabase.from('requests').select('*').eq('id_user', userInfoArray[0].id).single();
       requestsInfoData = requestsInfo || [];
       if (userInfoArray[0].id_partner) {
-        const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', userInfoArray[0].id_partner || '');
+        const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', userInfoArray[0].id_partner || '').single();
         partnerInfoData = partnerData || [];
       }
     }

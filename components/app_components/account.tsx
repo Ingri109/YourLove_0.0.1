@@ -20,12 +20,11 @@ interface UserInfo {
     mood: string | null
     name: string | null
     network: string | null
-    "what-does": string | null
 }
 
 interface AccountProps {
-    Userdata: UserInfo[];
-    partnerData: UserInfo[];
+    Userdata: any;
+    partnerData: any;
     requestsInfo: any; 
 }
 
@@ -56,25 +55,26 @@ export default function Account({ Userdata, partnerData, requestsInfo }: Account
 
 
     return (
+        // flex flex-col items-center w-full max-h-full px-[4px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] mx-[10px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] lg:w-4/6 lg:px-[28px] lg:py-[12px] md:px-[12px] md:py-[18px] md:w-3/6 animate-scaleIn
         <>
-            <div className=" flex flex-col items-center">
-                <div className=" flex flex-col w-[360px] h-[900px] bg-color4 bg-opacity-10 backdrop-blur-md mt-[80px] mb-[100px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] lg:w-[1160px] lg:h-[512px] lg:mb-[142px] sm:m-[60px] animate-scaleIn">
-                    <div className="flex justify-center items-center">
-                        <div className="flex flex-col justify-start w-[310px] h-[790px] bg-color1_1  rounded-[14px] mt-[25px] shadow-[0_4px_60px_3px_rgba(0,0,0,0.4)] shadow-color3 lg:flex-row lg:w-[1060px] lg:h-[370px] lg:justify-between ">
-                            <div className="basis-0 flex flex-col justify-start items-start mx-2 mt-[10px] lg:ml-[20px] lg:mx-0 lg:basis-1/2 lg:mt-[0px]">
+            <div className="flex justify-center items-stretch  justify-items-stretch md:items-center">
+                <div className="flex flex-col justify-start items-stretch w-full max-h-full px-[10px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] mx-[10px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-10/12  lg:px-[20px] lg:py-[18px] lg:w-11/12 md:px-[12px] md:py-[18px] md:w-4/6 md:mx-0 animate-scaleIn">
+                    <div className="flex">
+                        <div className="flex flex-col justify-start justify-items-stretch items-start w-full px-[10px] py-[8px] pb-[16px] bg-color1_1 rounded-[14px] shadow-color3  shadow-[0_5px_10px_3px_rgba(0,0,0,0.5)]] lg:px-0 lg:pb-[10px] lg:flex-row lg:justify-between ">
+                            <div className="basis-0 flex flex-col justify-between justify-items-stretch h-full w-full items-start px-[16px] lg:px-[12px] lg:basis-1/2 ">
                                 <InfoUser Userdata={Userdata} />
-                                <div className="flex flex-col justify-start items-center mt-[32px] space-x-0 space-y-3 lg:flex-row lg:space-x-4 lg:space-y-0 lg:mt-[90px] w-full">
-                                    <button onClick={() => { setOpenModal(true); setChekModel('Password') }} className="bg-color4 text-white text-[14px] font-bold tracking-wide w-full py-[4px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] lg:w-auto lg:px-[20px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Змінити пароль</button>
-                                    <button onClick={() => { setOpenModal(true); setChekModel('Name') }} className="bg-color4 text-white text-[14px] font-bold tracking-wide w-full py-[4px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] lg:w-auto lg:px-[20px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Змінити ім’я</button>
-                                    {Userdata[0].engaged === false
+                                <div className="flex flex-col justify-between items-center  mb-[16px] space-x-0 lg:space-x-2  lg:flex-row  lg:mt-[70px] w-full">
+                                    <button onClick={() => { setOpenModal(true); setChekModel('Password') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Змінити пароль</button>
+                                    <button onClick={() => { setOpenModal(true); setChekModel('Name') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Змінити ім’я</button>
+                                    {Userdata.engaged === false
                                         ?
-                                        <button onClick={() => { setOpenModal(true); setChekModel('Requests') }} className="bg-color4 text-white text-[14px] font-bold tracking-wide w-full py-[4px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] lg:w-auto lg:px-[20px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Запрошення</button>
+                                        <button onClick={() => { setOpenModal(true); setChekModel('Requests') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full h-min px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Запрошення</button>
                                         :
-                                        <button onClick={() => { setOpenModal(true); setChekModel('DelRequests') }} className="bg-color4 text-white text-[14px] font-bold tracking-wide w-full py-[4px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] lg:w-auto lg:px-[20px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Видалити партнера</button>
+                                        <button onClick={() => { setOpenModal(true); setChekModel('DelRequests') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full h-min px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">Видалити партнера</button>
                                     }
                                 </div>
                             </div>
-                            {Userdata[0].engaged === false ? <AddPartner Userdata={Userdata} /> : <InfoPartner partnerData={partnerData} />}
+                            {Userdata.engaged === false ? <AddPartner Userdata={Userdata} /> : <InfoPartner partnerData={partnerData} />}
 
                         </div>
                     </div>

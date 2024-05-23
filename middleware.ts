@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
-  const publivUrls = ['/account/reset', '/', '/login', '/auth/callback'];
+  const publivUrls = ['/account/reset', '/', '/login', '/auth/callback', '/login/reset'];
 
   if(publivUrls.includes(req.nextUrl.pathname)) {
     return res;

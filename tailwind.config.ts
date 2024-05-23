@@ -10,8 +10,8 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      header:'#FE8ACB',
-      header_act: '#AE1B7C',
+      header: "#FE8ACB",
+      header_act: "#AE1B7C",
 
       color1: "#BF2489",
       color2: "#40022A",
@@ -33,6 +33,8 @@ const config: Config = {
       color3_3: "#624251",
       color4_3: "#89078B",
 
+      pearl: "#fcfcf7",
+      pearl_dark: "#f4f3f3",
       black: "#131313",
       white: "#FFFFFF",
 
@@ -45,7 +47,6 @@ const config: Config = {
       cold_season: "#f8f7f4",
       ivory: "#fffff0",
       marble: "#f2f8fc",
-      pearl: "#fcfcf7",
     },
     extend: {
       backgroundImage: {
@@ -55,8 +56,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [
-    addDynamicIconSelectors
-  ],
+  plugins: [addDynamicIconSelectors],
 };
 export default config;
