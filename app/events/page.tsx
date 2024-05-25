@@ -4,6 +4,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 
 
 export default function Events() {
+  const [mood, setMood] = useState<string>('')
   const [WhatDo, setWhatDo] = useState<string>('');
   const [data, setData] = useState<any>(null);
   const supabase = createClientComponentClient();
@@ -13,11 +14,24 @@ export default function Events() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user?.id) {
-          const { data, error } = await supabase.from('users_info').select('WhatDo, id').eq('id', session.user.id).single();
+          const { data, error } = await supabase.from('users_info').select('WhatDo, mood, id').eq('id', session.user.id).single();
           if (error) {
             console.error('Fetch error: ', error);
           } else {
-            setWhatDo(data.WhatDo);
+            debugger
+            if(data.WhatDo === null ) {
+              setWhatDo('none');
+            }else{
+              setWhatDo(data.WhatDo);
+            }
+
+            if(data.mood === null ) {
+              setMood('none');
+            }else{
+              setMood(data.mood);
+            }
+            
+            
             setData(data);
           }
         }
@@ -27,7 +41,7 @@ export default function Events() {
     };
 
     fetchData();
-  }, []);
+  }, [supabase, setData, setWhatDo, setMood]);
 
   const updateWhatDo = async (event: string) => {
     debugger
@@ -46,11 +60,28 @@ export default function Events() {
     }
   }
 
+  const updateMood = async (event: string) => {
+    debugger
+    console.log(data)
+    if (data && data.id) {
+      try {
+        const { error } = await supabase.from('users_info').update({ mood: event }).eq('id', data.id);
+        if (error) {
+          console.error('Update error: ', error);
+        } else {
+          setMood(event);
+        }
+      } catch (error) {
+        console.error('Error updating data: ', error);
+      }
+    }
+  }
+
 
 
   if (!data) { return <div>Login1...</div> }
 
-  console.log(WhatDo);
+  console.log(mood);
 
   return (
     <>
@@ -64,6 +95,15 @@ export default function Events() {
             <button type="button" onClick={() => { setWhatDo('working'), updateWhatDo('working') }} className={` p-1 rounded-md ${WhatDo === 'working' ? 'bg-pearl_dark shadow-color1_1 shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_10px_8px_rgba(0,0,0,0.4)] md:hover:shadow-color1_1'}`}>Працюю</button>
             <button type="button" onClick={() => { setWhatDo('bored'), updateWhatDo('bored') }} className={` p-1 rounded-md ${WhatDo === 'bored' ? 'bg-pearl_dark shadow-color1_1 shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_10px_8px_rgba(0,0,0,0.4)] md:hover:shadow-color1_1'}`}>Нудьгую</button>
             <button type="button" onClick={() => { setWhatDo('playing'), updateWhatDo('playing') }} className={` p-1 rounded-md ${WhatDo === 'playing' ? 'bg-pearl_dark shadow-color1_1 shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_10px_8px_rgba(0,0,0,0.4)] md:hover:shadow-color1_1'}`}>Граю</button>
+          </div>
+          <h1 className="text-[24px] font-bold text-white ">Який настрій:</h1>
+          <div className="grid grid-cols-2 gap-y-2 gap-x-1.5 w-full justify-between items-center justify-items-stretch max-w-full mt-3 xl:gap-x-6 lg:gap-2 md:grid-cols-6 sm:grid-cols-3 sm:gap-2 sm:gap-x-2">
+            <button type="button" onClick={() => { setMood('none'), updateMood('none') }} className={` p-1 rounded-md ${mood === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Не знаю</button>
+            <button type="button" onClick={() => { setMood('positive'), updateMood('positive') }} className={` p-1 rounded-md ${mood === 'positive' ? 'bg-pearl_dark shadow-[#20E400] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#20E400]'}`}>Позитивний</button>
+            <button type="button" onClick={() => { setMood('neutral'), updateMood('neutral') }} className={` p-1 rounded-md ${mood === 'neutral' ? 'bg-pearl_dark shadow-[#FFE03E] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#FFE03E]'}`}>Нейтральний</button>
+            <button type="button" onClick={() => { setMood('sad'), updateMood('sad') }} className={` p-1 rounded-md ${mood === 'sad' ? 'bg-pearl_dark shadow-[#4C6EE8] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#4C6EE8]'}`}>Сумний</button>
+            <button type="button" onClick={() => { setMood('insulted'), updateMood('insulted') }} className={` p-1 rounded-md ${mood === 'insulted' ? 'bg-pearl_dark shadow-[#7F1888] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#7F1888]'}`}>Ображений</button>
+            <button type="button" onClick={() => { setMood('angry'), updateMood('angry') }} className={` p-1 rounded-md ${mood === 'angry' ? 'bg-pearl_dark shadow-[#F51D1D] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#F51D1D]'}`}>Злий</button>
           </div>
         </div>
       </div>
