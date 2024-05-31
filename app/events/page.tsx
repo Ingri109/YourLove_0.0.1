@@ -61,8 +61,6 @@ export default function Events() {
   }
 
   const updateMood = async (event: string) => {
-    debugger
-    console.log(data)
     if (data && data.id) {
       try {
         const { error } = await supabase.from('users_info').update({ mood: event }).eq('id', data.id);

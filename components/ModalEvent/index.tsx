@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs"
 import Head from "../body_parts/Head";
 import Hand from "../body_parts/Hand";
@@ -35,12 +34,12 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
     };
 
     const bodyParts: { [key: string]: JSX.Element } = {
-        'Head': <Head nameAction={nameAction} />,
-        'Left Hand': <Hand nameAction={nameAction} />,
-        'Body': <Body nameAction={nameAction} />,
-        'Right Hand': <Hand nameAction={nameAction} />,
-        'Left Leg': <Leg nameAction={nameAction} />,
-        'Right Leg': <Leg nameAction={nameAction} />,
+        'Head': <Head onClose={onClose} nameAction={nameAction} />,
+        'Left Hand': <Hand onClose={onClose} nameAction={nameAction} />,
+        'Body': <Body onClose={onClose} nameAction={nameAction} />,
+        'Right Hand': <Hand onClose={onClose} nameAction={nameAction} />,
+        'Left Leg': <Leg onClose={onClose} nameAction={nameAction} />,
+        'Right Leg': <Leg onClose={onClose} nameAction={nameAction} />,
     };
 
     const partStyles: { [key: string]: string } = {
@@ -64,7 +63,7 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
                             <>
                                 <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-t-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Cute') }}>Мілі дії</div>
                                 <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Painful') }}>Болючі дії</div>
-                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-b-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Lustful') }}>Хтиві дії</div>
+                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-b-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { onClose() , alert('Ця дія тимчасово не доступна') }}>Хтиві дії</div>
                             </>
                             :
                             <>

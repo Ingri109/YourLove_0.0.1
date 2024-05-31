@@ -12,7 +12,7 @@ const RegisterFormPage = async () => {
   const { data } = await supabase.from('users_info').select('*').eq('id', session?.user.id)
   if (!session) redirect('/login')
   const { data: requests, error } = await supabase.from('requests').select('*').eq('id_user', session?.user.id)
-  if (!requests) redirect('/account')
+  // if (!requests) redirect('/account')
 
   const addData = async (formData: FormData) => {
     'use server';
@@ -36,11 +36,11 @@ const RegisterFormPage = async () => {
         gender: rawFormData.gender
 
       });
-      redirect('/account')
+      // redirect('/account')
     }
   }
 
-  if (!data || data.length > 0) redirect('/account');
+  // if (!data || data.length > 0) redirect('/account');
 
   return (
     <>

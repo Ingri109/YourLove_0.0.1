@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navigaton from "@/components/Navigation/Navigaton";
 import { Suspense } from 'react';
+import NetworkStatus from "./networkStatus";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Suspense fallback={<p>Login..</p>}>
+          <NetworkStatus/>
           <Navigaton />
           {children}
           <div id="modal-root"></div>

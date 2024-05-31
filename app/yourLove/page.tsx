@@ -9,6 +9,8 @@ export default function YourLove() {
   const [data, setData] = useState<any>(null);
   const [WhatDo, setWhatDo] = useState<string>('');
   const [mood, setMood] = useState<string>('');
+  const [LastAction, setLastAction] = useState<string>('');
+  const [isOnline, setIsOnline] = useState(false);
 
   const PageWhatDo: { [key: string]: string } = {
     'none': 'Нічого',
@@ -32,32 +34,51 @@ export default function YourLove() {
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (session?.user?.id) {
-        const { data: data_user, error: userError } = await supabase.from('users_info').select('id_partner').eq('id', session.user.id).single();
+        const { data: data_user, error: userError } = await supabase.from('users_info').select('id_partner, id').eq('id', session.user.id).single();
         if (userError) {
-          console.error('Fetch error: ', userError);
+          console.log('Fetch error: ', userError);
         } else {
-          const { data: data_partner, error: partnerError } = await supabase.from('users_info').select('WhatDo, mood, id').eq('id', data_user.id_partner).single();
+          const { data: data_partner, error: partnerError } = await supabase.from('users_info').select('WhatDo, mood, LastAction, id').eq('id', data_user.id_partner).single();
           if (partnerError) {
-            console.error('Fetch error: ', partnerError);
+            console.log('Fetch error: ', partnerError);
           } else {
             setData(data_partner);
+          }
+          if (data_partner?.LastAction != null) {
+            setLastAction(data_partner.LastAction)
+          } else {
+            setLastAction('Пусто')
           }
         }
       }
     } catch (error) {
-      console.error('Error fetching data: ', error);
+      console.log('Error fetching data: ', error);
     }
   }, [supabase]);
 
-
+  const updateStatus = useCallback(async (status: any) => {
+    // debugger
+    // const { data: { session } } = await supabase.auth.getSession();
+    // if (session?.user?.id) {
+    //   setIsOnline(status);
+    //   const { error } = await supabase.from('users_info').update({ network: status }).eq('id', session.user.id);
+    //   if (error) {
+    //     console.log('Update error: ', error);
+    //   }
+    // } else {
+    //   console.log('Data ID is not available for update');
+    // }
+  }, []);
 
   const handleUPDATES = useCallback((payload: any) => {
     const newWhatDo = payload.new.WhatDo || 'none';
     setWhatDo(PageWhatDo[newWhatDo]);
     const newMood = payload.new.mood || 'none';
     setMood(PageMood[newMood]);
+    const newAction = payload.new.LastAction || 'none';
+    setLastAction(newAction);
   }, []);
-  
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
@@ -86,11 +107,30 @@ export default function YourLove() {
     }
   }, [data?.id, supabase, handleUPDATES]);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
+      const handleStatus = () => {
+        const status = navigator.onLine ? true : false
+        updateStatus(status);
+      };
+      setIsOnline(navigator.onLine);
+      window.addEventListener('online', handleStatus);
+      window.addEventListener('offline', handleStatus);
 
+      
+
+      return () => {
+        console.log('Removing');
+        window.addEventListener('online', handleStatus);
+        window.addEventListener('offline', handleStatus);
+      };
+    } else {
+      console.log('Not a browser environment');
+    }
+  }, []);
   if (!data) {
     return <div>Login1...</div>;
   }
-  
 
   return (
     <div className="flex justify-center items-stretch md:items-center">
@@ -102,7 +142,8 @@ export default function YourLove() {
           </div>
           <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Що робить: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{WhatDo}</mark></h2>
           <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Настрій твого партнера: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{mood}</mark></h2>
-          <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Остання дія: Поцілувати в губи</h2>
+          <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Остання дія: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{LastAction}</mark></h2>
+          <p>{isOnline ? 'Online' : 'Offline'}</p>
         </div>
         <Human />
       </div>
