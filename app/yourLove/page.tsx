@@ -3,7 +3,7 @@
 import Human from "@/components/Human";
 import { useEffect, useState, useCallback } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import Login from "../login";
+import Login from "@/app/Login";
 
 export default function YourLove() {
   const supabase = createClientComponentClient();

@@ -5,7 +5,7 @@ import Navigaton from "@/components/Navigation/Navigaton";
 import { Suspense } from 'react';
 import NetworkStatus from "./networkStatus";
 import Footer from "@/components/Footer/footer";
-import Login from "./login";
+import Login from "@/app/Login";
 
 
 const inter = Inter({ subsets: ["latin"] });

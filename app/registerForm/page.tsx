@@ -4,7 +4,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from 'next/navigation';
-import Login from "../login";
+import Login from "@/app/Login";
 
 
 const RegisterFormPage = async () => {
