@@ -4,6 +4,8 @@ import "./globals.css";
 import Navigaton from "@/components/Navigation/Navigaton";
 import { Suspense } from 'react';
 import NetworkStatus from "./networkStatus";
+import Footer from "@/components/Footer/footer";
+import Login from "./login";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,12 +22,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Suspense fallback={<p>Login..</p>}>
-          <NetworkStatus/>
+      <body className={`${inter.className} min-h-screen `}>
+        <Suspense fallback={<Login/>}>
+          <NetworkStatus />
           <Navigaton />
           {children}
           <div id="modal-root"></div>
+          <Footer/>
         </Suspense>
       </body>
     </html>

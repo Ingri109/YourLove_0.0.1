@@ -35,7 +35,7 @@ const Body = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
                 if (session?.user?.id) {
                     const { data, error } = await supabase.from('users_info').select('id_partner').eq('id', session.user.id).single();
                     if (error) {
-                        console.error('Fetch error: ', error);
+                        console.log('Fetch error: ', error);
                     }
                     if (data?.id_partner != null) {
                         console.log(data.id_partner);
@@ -43,7 +43,7 @@ const Body = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
                     }
                 }
             } catch (error) {
-                console.error('Error fetching data: ', error);
+                console.log('Error fetching data: ', error);
             }
         };
 
@@ -51,16 +51,14 @@ const Body = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
     }, [supabase, setID]);
 
     const addAction = async (action: string) => {
-        console.log('Action:', action);
-        console.log(ID);
         if (ID) {
             try {
                 const { error } = await supabase.from('users_info').update({ LastAction: action }).eq('id', ID);
                 if (error) {
-                    console.error('Update error: ', error);
+                    console.log('Update error: ', error);
                 }
             } catch (error) {
-                console.error('Error updating data: ', error);
+                console.log('Error updating data: ', error);
             }
         }
     };

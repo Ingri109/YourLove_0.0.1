@@ -29,7 +29,6 @@ const AddPartner = ({ Userdata }: InfoUserProps) => {
 
     const AddYourLove = async () => {
         if (idPartner != Userdata.id) {
-            debugger
             const { data: partnerData } = await supabase.from('users_info').select('*').eq('id', idPartner || '').single();
             let partnerInfoData: any = partnerData || [];
 

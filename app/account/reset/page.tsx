@@ -52,7 +52,7 @@ export default function Reset() {
             if (error) console.log("Your hava error")
             if (!error) redirect('/login');
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
     }
 

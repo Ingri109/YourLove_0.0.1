@@ -121,8 +121,6 @@ export default function Login() {
 
     const handleSignUp = async () => {
         const { password, confirmPassword, email } = data;
-        debugger;
-
         if (!email || !password) {
             setMessageError("Будь ласка, введіть email та пароль.");
             return;
@@ -184,7 +182,7 @@ export default function Login() {
                     setMessageError('Реєстрація успішна! Будь ласка, перевірте ваш email для підтвердження.');
                 }
             } catch (error) {
-                console.error('Невідома помилка під час реєстрації:', error);
+                console.log('Невідома помилка під час реєстрації:', error);
                 setMessageError('Невідома помилка. Будь ласка, зверніться до підтримки.');
             }
         }
@@ -223,7 +221,7 @@ export default function Login() {
             }
 
         } catch (error) {
-            console.error('Помилка під час входу:', error);
+            console.log('Помилка під час входу:', error);
             setMessageError("Невідома помилка. Будь ласка, зверніться до підтримки.");
         }
     }
@@ -236,7 +234,7 @@ export default function Login() {
             });
             setCheckSend(true)
         } catch (error) {
-            console.error('ResetPassworld error:', error);
+            console.log('ResetPassworld error:', error);
         }
 
     }

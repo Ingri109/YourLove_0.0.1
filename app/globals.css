@@ -16,6 +16,10 @@ body {
   background-size: cover;
 }
 
+footer{
+  margin-top: auto;
+}
+
 /* Додати адаптивність для мобільних пристроїв */
 @media screen and (max-width: 768px) {
   body {

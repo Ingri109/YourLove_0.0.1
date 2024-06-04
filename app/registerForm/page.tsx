@@ -3,16 +3,13 @@ import RegisterForm from "../../components/app_components/register_form";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
+import Login from "../login";
+
 
 const RegisterFormPage = async () => {
   const cookieStore = cookies()
   const supabase = createServerComponentClient({ cookies: () => cookieStore })
-  const { data: { session } } = await supabase.auth.getSession();
-  const { data } = await supabase.from('users_info').select('*').eq('id', session?.user.id)
-  if (!session) redirect('/login')
-  const { data: requests, error } = await supabase.from('requests').select('*').eq('id_user', session?.user.id)
-  // if (!requests) redirect('/account')
 
   const addData = async (formData: FormData) => {
     'use server';
@@ -36,11 +33,11 @@ const RegisterFormPage = async () => {
         gender: rawFormData.gender
 
       });
-      // redirect('/account')
+      redirect('/account')
     }
   }
 
-  // if (!data || data.length > 0) redirect('/account');
+ 
 
   return (
     <>

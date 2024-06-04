@@ -85,13 +85,12 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
             });
             setCheckSend(true)
         } catch (error) {
-            console.error('ResetPassworld error:', error);
+            console.log('ResetPassworld error:', error);
         }
 
     }
 
     const SaveName = async (newName: string) => {
-        debugger
         try {
             const { error } = await supabase.from('users_info').update({ name: newName }).eq('id', Userdata.id);
             router.refresh()
@@ -99,7 +98,7 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
                 throw error;
             }
         } catch (error) {
-            console.error('SaveName error:', error);
+            console.log('SaveName error:', error);
         }
     };
 

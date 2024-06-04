@@ -18,8 +18,6 @@ export async function middleware(req: NextRequest) {
   let publivUrls = ["/", "/auth/callback"];
 
   if (session?.user?.id) {
-    console.log("Inside first if");
-
     if (!data) {
       publivUrls.push("/registerForm");
     } else {
@@ -36,8 +34,6 @@ export async function middleware(req: NextRequest) {
     publivUrls.push("/login");
     publivUrls.push("/login/reset");
   }
-  console.log('1')
-  console.log(publivUrls)
 
   if (
     publivUrls.includes(req.nextUrl.pathname) ||
@@ -45,14 +41,10 @@ export async function middleware(req: NextRequest) {
   ) {
     return res;
   }
-  console.log('2')
-  console.log(publivUrls)
 
   if (!session?.user?.id) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  console.log('3')
-  console.log(publivUrls)
   if (!data) {
     return NextResponse.redirect(new URL("/registerForm", req.url));
   } 
@@ -60,10 +52,7 @@ export async function middleware(req: NextRequest) {
   if (session?.user?.id ) {
     return NextResponse.redirect(new URL("/account", req.url));
   }
-  console.log('4')
-  console.log(publivUrls)
   
-
   return res;
 }
 
