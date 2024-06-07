@@ -67,19 +67,22 @@ export default function Reset() {
     return (
         <>
             <div className="h-screen flex items-center justify-center p-6">
-                <div className="flex flex-col items-center justify-start bg-color3_3 rounded-lg shadow-md bg-opacity-40 backdrop-blur-[12px] animate-scaleIn px-9 pb-10 pt-4">
-                    <h1 className="text-white text-[26px]">Будь ласка введіть новий пароль</h1>
+                <div className="flex flex-col items-center justify-starts bg-color3_3 rounded-lg shadow-md bg-opacity-40 backdrop-blur-[12px] animate-scaleIn px-3 py-2 sm:px-9 sm:py-4 ">
+                    <h1 className="text-white text-nowrap text-center font-bold text-[16px] sm:text-[22px]">Будь ласка введіть новий пароль</h1>
                     <div className="flex flex-col justify-start items-center w-3/4">
-                        <div className="w-full relative pt-[15px] mt-[10px]">
+                        <div className="w-full relative pt-[15px] ">
                             <input type={showPassword ? 'text' : 'password'}
                                 name="password"
                                 value={data.password}
                                 onChange={handleChange}
-                                className="from__field text-xl" placeholder="password" id="password" required></input>
-                            <label className="from__label top-0 absolute block text-color4_2 transition-[0.2s]">New Password</label>
-                            <label className="absolute block left-[286px] top-[24px] w-[26px] h-[26px]" onClick={() => setShowPassword(!showPassword)}>
-                                <Image alt="checkPassword" className=" w-[26px] h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
+                                className="from__field_reset bg-transparent w-full text-white outline-none border-0 py-[4px] text-[14px] sm:text-xl" placeholder="password" id="password" required></input>
+                            <label className="from__label_reset text-[10px] top-[8px] absolute block text-color4_2 transition-[0.2s] sm:top-0 sm:text-[16px]">Новий пароль</label>
+                            {data.password === '' ? null : 
+                            <label className="absolute block left-[174px] bottom-[0px] w-[26px] h-[26px] sm:left-[242px] sm:bottom-[8px]" onClick={() => setShowPassword(!showPassword)}>
+                                <Image alt="checkPassword" className=" w-[18px] h-[18px] sm:w-[26px] sm:h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
                             </label>
+                            }
+
                             <div className={`${progress} h-[3px] rounded-[2px] transition-all duration-500`}></div>
                         </div>
                         <div className="w-full relative pt-[15px] mt-[10px]">
@@ -87,10 +90,11 @@ export default function Reset() {
                                 name="confirmPassword"
                                 value={data.confirmPassword}
                                 onChange={handleChange}
-                                className="from__field text-xl" placeholder="confirmPassword" id="confirmPassword" required></input>
-                            <label className="from__label top-0 absolute block text-color4_2 transition-[0.2s]">Confirm New Password</label>
+                                className="from__field_reset bg-transparent w-full text-white outline-none border-0 py-[4px] text-[14px] sm:text-xl" placeholder="confirmPassword" id="confirmPassword" required></input>
+                            <label className="from__label_reset text-[10px] top-[8px] absolute block text-color4_2 transition-[0.2s] sm:top-0 sm:text-[16px]">Повторіть пароль</label>
                             <div className="bg-color4_2 w-full h-[3px] rounded-[2px] transition-all duration-500"></div>
                         </div>
+                        <button type="button" className="text-[18px] text-center font-semibold text-white bg-color4_1 py-0.5 px-4 rounded-md mt-[10px] sm:mt-[20px] sm:py-1.5 sm:px-10 sm:rounded-xl " onClick={confitmPassword}>Змінити пароль</button>
 
                     </div>
 

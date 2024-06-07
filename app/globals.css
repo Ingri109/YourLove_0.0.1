@@ -16,7 +16,7 @@ body {
   background-size: cover;
 }
 
-footer{
+.footer{
   margin-top: auto;
 }
 
@@ -115,6 +115,26 @@ footer{
   font-size: 1.1rem;
   cursor: text;
   top: 8px;
+}
+
+.from__field_reset {
+  background: transparent;
+}
+
+.from__field_reset::placeholder {
+  color: transparent;
+}
+
+.from__field_reset:placeholder-shown~.from__label_reset {
+  font-size: 1.2rem;
+  cursor: text;
+  top: 20px;
+}
+
+@media screen and (max-width: 640px) {
+  .from__field_reset:placeholder-shown~.from__label_reset {
+    font-size: 0.8rem;
+  }
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {

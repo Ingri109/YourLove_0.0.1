@@ -15,11 +15,11 @@ const RegisterForm = ({ addData, }: { addData: (formData: FormData) => Promise<v
                 <div className="flex flex-col space-y-6 mt-[26px]">
                     <div className="w-full relative ">
                         <input type="text" name="name" placeholder="Name" className="from__field_form bg-transparent outline-none border-[2px] border-color3_2 text-white px-2 py-2 text-[16px] font-medium placeholder:text-transparent" />
-                        <label className="from__label_form border-[2px] bg-color3_3 border-color3_2 left-2 top-[-12px] absolute block text-white text-[12px] transition-[5.0s] px-1">Name</label>
+                        <label className="from__label_form border-[2px] bg-color3_3 border-color3_2 left-2 top-[-12px] absolute block text-white text-[12px] delay-100 duration-200 transition-all px-1">Name</label>
                     </div>
                     <div className="w-full relative">
                         <input type="date" name="age" placeholder="Age" className="from__field_form bg-transparent outline-none border-[2px] border-color3_2 text-white px-2 py-2 text-[16px] font-medium placeholder:text-transparent" />
-                        <label className="from__label_form border-[2px] bg-color3_3 border-color3_2 left-2 top-[-12px] absolute block text-white text-[12px] transition-[5.0s] px-1">Age</label>
+                        <label className="from__label_form border-[2px] bg-color3_3 border-color3_2 left-2 top-[-12px] absolute block text-white text-[12px]  px-1">Age</label>
                     </div>
                     <div className="flex flex-row justify-start items-center">
                         <input type="hidden" name="gender" value={gender} />
@@ -31,7 +31,7 @@ const RegisterForm = ({ addData, }: { addData: (formData: FormData) => Promise<v
                         </div>
                     </div>
                 </div>
-                <button type="submit" className="bg-color1_1 bg-opacity-70 px-4 py-2 rounded-[12px] text-white text-[18px] font-medium hover:bg-color4_1 hover:bg-opacity-60 transition duration-200 delay-150 ease-in mt-[32px]">Створити аватара</button>
+                <button type="submit" className="bg-color1_1 bg-opacity-70 px-4 py-2 rounded-[12px] text-white text-[18px] font-medium hover:scale-105 hover:bg-color1 hover:bg-opacity-60 transition duration-200 delay-150 ease-in mt-[32px] focus:bg-color1_3">Створити аватара</button>
             </form>
         </>
     )

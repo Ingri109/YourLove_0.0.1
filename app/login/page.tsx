@@ -295,13 +295,16 @@ export default function Login() {
                                         onChange={handleChange}
                                         className="from__field text-xl" placeholder="password" id="password" required></input>
                                     <label className={`from__label top-0 absolute block ${errorStyle ? 'text-[#D13232]' : 'text-color4_2'} transition-all duration-500 delay-150`}>Password</label>
-                                    <label className="absolute block left-[228px] top-[24px] w-[26px] h-[26px]" onClick={() => setShowPassword(!showPassword)}>
-                                        <Image alt="checkPassword" className=" w-[26px] h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
-                                    </label>
+                                    {data.password === '' ? null :
+                                        <label className="absolute block left-[228px] top-[24px] w-[26px] h-[26px]" onClick={() => setShowPassword(!showPassword)}>
+                                            <Image alt="checkPassword" className=" w-[26px] h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
+                                        </label>
+                                    }
+
                                     <div className={`${errorStyle ? 'bg-[#D13232]' : 'bg-color4'} w-full h-[3px] rounded-[2px] transition-all duration-500 delay-150`}></div>
                                 </div>
                                 <div className="flex justify-start w-full mt-1 max-w-full"><p className={`text-[10px] text-[#D13232] break-words font-medium decoration-2 underline-offset-4 `}>{messageError}</p></div>
-                                <div className="flex justify-start w-full mt-0" onClick={() => setResetPassword(!resetPassword)}><p className="text-[14px] cursor-pointer font-medium text-color1_2 decoration-2 underline-offset-4 hover:text-color1 hover:underline">Забули пароль?</p></div>
+                                <div className="flex justify-start w-full mt-0" onClick={() => setResetPassword(!resetPassword)}><p className="text-[14px] cursor-pointer font-medium text-color1_2 decoration-[1.5px] underline-offset-4 hover:text-color1 hover:underline">Забули пароль?</p></div>
 
                                 <button
                                     type="button"
@@ -329,9 +332,12 @@ export default function Login() {
                                         onChange={handleChange}
                                         className="from__field text-xl" placeholder="password" id="password" required></input>
                                     <label className={`from__label top-0 absolute block ${errorStyle ? 'text-[#D13232]' : 'text-color2_2'} transition-all duration-500 delay-150`}>Password</label>
-                                    <label className="absolute block left-[228px] top-[24px] w-[26px] h-[26px]" onClick={() => setShowPassword(!showPassword)}>
-                                        <Image alt="checkPassword" className=" w-[26px] h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
-                                    </label>
+                                    {data.password === '' ? null :
+                                        <label className="absolute block left-[228px] top-[24px] w-[26px] h-[26px]" onClick={() => setShowPassword(!showPassword)}>
+                                            <Image alt="checkPassword" className=" w-[26px] h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
+                                        </label>
+                                    }
+
                                     <div className={`${progress} h-[3px] rounded-[2px] transition-all duration-500 delay-150`}></div>
                                 </div>
                                 <div className="flex justify-end w-full mt-1"><p className={`text-[10px] ${messageStyle} font-medium decoration-2 underline-offset-4 break-words`}>{message}</p></div>

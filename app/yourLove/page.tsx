@@ -69,9 +69,9 @@ export default function YourLove() {
         const { data: data_user, error: userError } = await supabase.from('users_info').select('id_partner, id, LastAction').eq('id', session.user.id).single();
         setIDUser(data_user?.id)
         if (data_user?.LastAction != null) {
-          setLastActionYourPartner(data_user.LastAction)
+          setLastAction(data_user.LastAction)
         } else {
-          setLastActionYourPartner('Пусто')
+          setLastAction('Пусто')
         }
         if (userError) {
           console.log('Fetch error: ', userError);
@@ -83,9 +83,9 @@ export default function YourLove() {
             setData(data_partner);
           }
           if (data_partner?.LastAction != null) {
-            setLastAction(data_partner.LastAction)
+            setLastActionYourPartner(data_partner.LastAction)
           } else {
-            setLastAction('Пусто')
+            setLastActionYourPartner('Пусто')
           }
         }
       }
@@ -96,19 +96,26 @@ export default function YourLove() {
 
 
   const handleUPDATES = useCallback((payload: any) => {
-    const newWhatDo = payload.new.WhatDo;
+    const newWhatDo = payload.new.WhatDo || 'none';
     setWhatDo(PageWhatDo[newWhatDo]);
-    const newMood = payload.new.mood;
+    const newMood = payload.new.mood || 'none';
     setMood(PageMood[newMood]);
-    const newWhatWants= payload.new.WhatWants;
+    const newWhatWants = payload.new.WhatWants || 'none';
     setWhatWants(PageWhatWants[newWhatWants]);
-    const newWellness = payload.new.Wellness;
+    const newWellness = payload.new.Wellness || 'none';
     setWellness(PageWellness[newWellness]);
-    const newPlansForEvening= payload.new.PlansForEvening;
+    const newPlansForEvening = payload.new.PlansForEvening || 'none';
     setPlansForEvening(PagePlansForEvening[newPlansForEvening]);
+    const newAction = payload.new.LastAction;
+    setLastActionYourPartner(newAction);
+  }, []);
+
+  const handleUPDATESPartner = useCallback((payload: any) => {
+    
     const newAction = payload.new.LastAction;
     setLastAction(newAction);
   }, []);
+
 
 
   useEffect(() => {
@@ -153,13 +160,19 @@ export default function YourLove() {
       } else {
         setPlansForEvening(PagePlansForEvening[data.PlansForEvening]);
       }
+      debugger
+      console.log(IDUser);
 
-      const channel = supabase.channel('todos')
+      const channel0 = supabase.channel('todos')
         .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users_info', filter: `id=eq.${data.id}` }, handleUPDATES)
         .subscribe();
-      return () => {
-        supabase.removeChannel(channel);
 
+      const channel1 = supabase.channel('todos')
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users_info', filter: `id=eq.${IDUser}` }, handleUPDATESPartner)
+        .subscribe();
+      return () => {
+        supabase.removeChannel(channel0);
+        supabase.removeChannel(channel1);
       };
 
     }
@@ -167,13 +180,12 @@ export default function YourLove() {
 
 
   if (!data) {
-    return <Login/>;
+    return <Login />;
   }
-  return <Login/>;
 
   return (
     <div className="flex justify-center items-stretch md:items-center">
-      <div className="flex flex-col justify-between items-center w-full max-h-full px-[14px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] mx-[4px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-8/12 lg:w-10/12 lg:px-[28px] lg:py-[12px] md:flex-row md:w-11/12 md:px-[12px] md:py-[18px] md:mx-0 sm:w-4/6 animate-scaleIn">
+      <div className="flex flex-col justify-between items-center w-11/12 max-h-full px-[14px] py-[12px] mb-[20px] mt-[80px] bg-color1_2 bg-opacity-10 backdrop-blur-md rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-8/12 lg:w-10/12 lg:px-[28px] lg:py-[12px] md:flex-row md:w-11/12 md:px-[12px] md:py-[18px] sm:w-4/6 animate-scaleIn">
         <div className="flex flex-col justify-start items-start w-full bg-color1_1 rounded-[14px] h-auto pb-[28px] shadow-[0_5px_10px_3px_rgba(0,0,0,0.5)] lg:w-[460px] md:h-[548px] md:pb-[0px] md:w-1/2">
           <div className='flex flex-row justify-center items-center w-full ml-[0px] mt-[10px] sm:ml-[28px] sm:justify-start'>
             <div className='bg-online h-[16px] w-[16px] rounded-full shadow-[0_0_8px_2px_rgba(0,0,0,0.2)] shadow-online md:h-[18px] md:w-[18px]'></div>

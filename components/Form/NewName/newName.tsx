@@ -26,7 +26,7 @@ function NewName({ onClose, SaveName }: { onClose: () => void, SaveName: (newNam
             </div>
             <div className="flex flex-col justify-center items-center space-y-[0.5px] mt-[18px] w-full relative mb-[25px]">
                 <input type="text" name="name" value={newName} onSubmit={onSaveName} onChange={(e) => setNewName(e.target.value)} placeholder="Name" className="from__field_newName bg-transparent outline-none border-[2px] rounded-md border-color3_2 text-white px-2 py-2 text-[16px] font-medium placeholder:text-transparent" />
-                <label className="from__label_newName border-[2px] rounded-[4px] bg-color3_3 border-color3_2 left-20 top-[-12px] absolute block text-white text-[12px] transition-[5.0s] px-1">Name</label>
+                <label className="from__label_newName border-[2px] rounded-[4px] bg-color3_3 border-color3_2 left-20 top-[-12px] absolute block text-white text-[12px] transition-[5.0s]">Нове ім’я</label>
                 {message && <p className="text-color1_2">{message}</p>}
             </div>
            

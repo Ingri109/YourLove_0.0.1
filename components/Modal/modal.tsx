@@ -126,11 +126,11 @@ const Modal = ({ Userdata, requestsInfo, chekModel, onClose }: ModalProps) => {
                 </form>
             }
             {chekModel === 'DelRequests' &&
-                <form className="flex flex-col justify-center items-center bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-6 space-y-2 animate-scaleIn">
-                    <h1 className='text-white text-[18px] font-semibold tracking-wider mb-5'>Ви впевнені, що хочете видалити партнера?</h1>
-                    <div className='flex justify-center items-center space-x-5'>
-                        <button type='button' onClick={() => { DelPartner(), onClose() }} className='text-ivory text-[16px] font-medium px-4 py-2 bg-color4_1 rounded-xl hover:bg-color4_3 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color4_2'>Так, я хочу видалити</button>
-                        <button type='button' onClick={onClose} className='text-ivory text-[16px]  font-medium  px-4 py-2 rounded-xl bg-color3_2 hover:bg-color3_1 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color3_2 '>Ні</button>
+                <form className="flex flex-col justify-center items-center w-11/12 bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-3 space-y-2 animate-scaleIn md:px-6 md:w-auto sm:w-9/12">
+                    <h1 className='text-white text-[18px] text-center w-full font-semibold tracking-wider mb-3 md:mb-4 md:w-auto'>Ви впевнені, що хочете видалити партнера?</h1>
+                    <div className='flex justify-center items-center space-x-3 md:space-x-5'>
+                        <button type='button' onClick={() => { DelPartner(), onClose() }} className='text-ivory text-[14px] font-medium px-3 py-1 bg-color4_1 rounded-lg hover:bg-color4_3 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color4_2 md:rounded-xl md:text-[16px] md:px-4 md:py-2'>Так, я хочу видалити</button>
+                        <button type='button' onClick={onClose} className='text-ivory text-[14px]  font-medium  px-3 py-1 rounded-lg bg-color3_2 hover:bg-color3_1 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color3_2 md:rounded-xl md:text-[16px] md:px-4 md:py-2'>Ні</button>
                     </div>
                 </form>
             }

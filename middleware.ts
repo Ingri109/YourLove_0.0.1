@@ -35,23 +35,23 @@ export async function middleware(req: NextRequest) {
     publivUrls.push("/login/reset");
   }
 
-  if (
-    publivUrls.includes(req.nextUrl.pathname) ||
-    (session?.user?.id && req.nextUrl.pathname === "/")
-  ) {
-    return res;
-  }
+  // if (
+  //   publivUrls.includes(req.nextUrl.pathname) ||
+  //   (session?.user?.id && req.nextUrl.pathname === "/")
+  // ) {
+  //   return res;
+  // }
 
-  if (!session?.user?.id) {
-    return NextResponse.redirect(new URL("/login", req.url));
-  }
-  if (!data) {
-    return NextResponse.redirect(new URL("/registerForm", req.url));
-  } 
+  // if (!session?.user?.id) {
+  //   return NextResponse.redirect(new URL("/login", req.url));
+  // }
+  // if (!data) {
+  //   return NextResponse.redirect(new URL("/registerForm", req.url));
+  // } 
 
-  if (session?.user?.id ) {
-    return NextResponse.redirect(new URL("/account", req.url));
-  }
+  // if (session?.user?.id ) {
+  //   return NextResponse.redirect(new URL("/account", req.url));
+  // }
   
   return res;
 }
