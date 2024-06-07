@@ -57,7 +57,7 @@ export default function Account({ Userdata, partnerData, requestsInfo }: Account
     return (
         <>
             <div className="flex justify-center items-stretch  justify-items-stretch md:items-center">
-                <div className="flex flex-col justify-start items-stretch w-full max-h-full px-[10px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] mx-[10px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-10/12  lg:px-[20px] lg:py-[18px] lg:w-11/12 md:px-[12px] md:py-[18px] md:w-4/6 md:mx-0 animate-scaleIn">
+                <div className="flex flex-col justify-start items-stretch w-full max-h-full px-[10px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md mb-[20px] mt-[80px] mx-[10px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-10/12  lg:px-[20px] lg:py-[18px] lg:w-11/12 md:px-[12px] md:py-[18px] md:w-4/6 md:mx-0 md:mb-[0px] animate-scaleIn">
                     <div className="flex">
                         <div className="flex flex-col justify-start justify-items-stretch items-start w-full px-[10px] py-[8px] pb-[16px] bg-color1_1 rounded-[14px] shadow-color3  shadow-[0_5px_10px_3px_rgba(0,0,0,0.5)]] lg:px-0 lg:pb-[10px] lg:flex-row lg:justify-between ">
                             <div className="basis-0 flex flex-col justify-between justify-items-stretch h-full w-full items-start px-[16px] lg:px-[12px] lg:basis-1/2 ">

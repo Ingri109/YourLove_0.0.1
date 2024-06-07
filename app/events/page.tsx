@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Login from "@/app/Login";
+import Link from "next/link";
 
 
 export default function Events() {
@@ -18,7 +19,7 @@ export default function Events() {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user?.id) {
-          const { data, error } = await supabase.from('users_info').select('WhatDo, mood, WhatWants, Wellness, PlansForEvening, id').eq('id', session.user.id).single();
+          const { data, error } = await supabase.from('users_info').select('WhatDo, mood, WhatWants, Wellness, PlansForEvening, id , id_partner').eq('id', session.user.id).single();
           if (error) {
             console.log('Fetch error: ', error);
           } else {
@@ -58,7 +59,7 @@ export default function Events() {
               setPlansForEvening(data.PlansForEvening);
             }
 
-            setData(data.id);
+            setData(data);
           }
         }
       } catch (error) {
@@ -70,9 +71,9 @@ export default function Events() {
   }, [supabase, setData, setWhatDo, setMood, setWhatWants, setWellness, setPlansForEvening]);
 
   const updateWhatDo = async (event: string) => {
-    if (data) {
+    if (data.id) {
       try {
-        const { error } = await supabase.from('users_info').update({ WhatDo: event }).eq('id', data);
+        const { error } = await supabase.from('users_info').update({ WhatDo: event }).eq('id', data.id);
         if (error) {
           console.log('Update error: ', error);
         } else {
@@ -85,9 +86,9 @@ export default function Events() {
   }
 
   const updateMood = async (event: string) => {
-    if (data) {
+    if (data.id) {
       try {
-        const { error } = await supabase.from('users_info').update({ mood: event }).eq('id', data);
+        const { error } = await supabase.from('users_info').update({ mood: event }).eq('id', data.id);
         if (error) {
           console.log('Update error: ', error);
         } else {
@@ -100,9 +101,9 @@ export default function Events() {
   }
 
   const updateWhatWants = async (event: string) => {
-    if (data) {
+    if (data.id) {
       try {
-        const { error } = await supabase.from('users_info').update({ WhatWants: event }).eq('id', data);
+        const { error } = await supabase.from('users_info').update({ WhatWants: event }).eq('id', data.id);
         if (error) {
           console.log('Update error: ', error);
         } else {
@@ -115,9 +116,9 @@ export default function Events() {
   }
 
   const updateWellness = async (event: string) => {
-    if (data) {
+    if (data.id) {
       try {
-        const { error } = await supabase.from('users_info').update({ Wellness: event }).eq('id', data);
+        const { error } = await supabase.from('users_info').update({ Wellness: event }).eq('id', data.id);
         if (error) {
           console.log('Update error: ', error);
         } else {
@@ -130,9 +131,9 @@ export default function Events() {
   }
 
   const updatePlansForEvening = async (event: string) => {
-    if (data) {
+    if (data.id) {
       try {
-        const { error } = await supabase.from('users_info').update({ PlansForEvening: event }).eq('id', data);
+        const { error } = await supabase.from('users_info').update({ PlansForEvening: event }).eq('id', data.id);
         if (error) {
           console.log('Update error: ', error);
         } else {
@@ -144,11 +145,25 @@ export default function Events() {
     }
   }
 
+  
   if (!data) { return <Login/> }
+
+  debugger
+  console.log(data.id_partner)
+  if(data.id_partner === null){
+    return (
+      <div className="absolute top-0 left-0 flex justify-center items-center w-full h-full">
+        <div className="flex flex-col justify-center items-center w-11/12 max-h-full px-[2px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-9/12 lg:w-10/12 lg:px-[2px] lg:py-[12px] md:w-11/12 md:px-[2px] md:py-[18px] sm:w-4/6 animate-scaleIn">
+          <h1 className="text-[24px] text-white font-bold text-center text-balance w-full md:text-[32px]">У вас ще немає партнера дабавте його і тільки тоід зможете зайти на цю сторінку</h1>
+          <Link href={'/account'} className=" bg-color4_1 text-white text-[12px] font-semibold mt-[10px] px-[28px] py-1.5 rounded-md hover:bg-color4 focus:bg-color4_3 md:mt-[28px] md:text-[18px] md:rounded-xl">Перейти на сторінку Акаунта</Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
-      <div className="flex justify-center items-stretch  justify-items-stretch md:items-center">
+      <div className="flex justify-center items-stretch mb-[20px] justify-items-stretch md:mb-[10px] md:items-center">
         <div className="flex flex-col justify-start items-start w-full max-h-full px-[14px] py-[12px] pb-[20px] bg-color1_2 bg-opacity-10 backdrop-blur-md mt-[80px] mx-[4px] rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] lg:pb-[40px] lg:px-[28px] lg:py-[12px] md:px-[12px] md:py-[10px] md:pb-[26px] md:w-11/12 md:mx-0 animate-scaleIn">
           <div className="flex flex-col items-center justify-center justify-items-stretch w-full">
             <h1 className="text-[32px] font-extrabold text-white">Події</h1>

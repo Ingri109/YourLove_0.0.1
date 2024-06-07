@@ -24,7 +24,7 @@ const NavigationItem = ({ to, pageName, currentPage }: { to: string; pageName: s
             <Link
               className={`flex font-Source items-center justify-center ${currentPage === pageName ? ' text-header_act ' : 'text-header'} text-[12px] py-[3px] px-[4px] mr-[8px] md:mr-[28px] md:text-[16px] transition delay-100 duration-300 relative overflow-hidden hover:text-header_act group `}
               href={to}>
-              {pageName}
+              {pageName === 'Events'? 'Події': pageName}
               {currentPage === pageName ?
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-header_act rounded"></div>
                 :

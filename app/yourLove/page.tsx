@@ -4,11 +4,13 @@ import Human from "@/components/Human";
 import { useEffect, useState, useCallback } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Login from "@/app/Login";
+import Link from "next/link";
 
 export default function YourLove() {
   const supabase = createClientComponentClient();
   const [data, setData] = useState<any>(null);
   const [IDUser, setIDUser] = useState<any>(null);
+  const [IDPartner, setIDPartner] = useState<any>(null);
   const [WhatDo, setWhatDo] = useState<string>('');
   const [mood, setMood] = useState<string>('');
   const [WhatWants, setWhatWants] = useState<string>('');
@@ -68,25 +70,31 @@ export default function YourLove() {
       if (session?.user?.id) {
         const { data: data_user, error: userError } = await supabase.from('users_info').select('id_partner, id, LastAction').eq('id', session.user.id).single();
         setIDUser(data_user?.id)
+        setIDPartner(data_user?.id_partner)
+
         if (data_user?.LastAction != null) {
-          setLastAction(data_user.LastAction)
+          setLastActionYourPartner(data_user.LastAction)
         } else {
-          setLastAction('Пусто')
+          setLastActionYourPartner('Пусто')
         }
         if (userError) {
           console.log('Fetch error: ', userError);
-        } else {
+        }
+        if (data_user?.id_partner) {
           const { data: data_partner, error: partnerError } = await supabase.from('users_info').select('WhatDo, mood, LastAction, WhatWants, Wellness, PlansForEvening, id').eq('id', data_user.id_partner).single();
+
           if (partnerError) {
             console.log('Fetch error: ', partnerError);
           } else {
             setData(data_partner);
           }
           if (data_partner?.LastAction != null) {
-            setLastActionYourPartner(data_partner.LastAction)
+            setLastAction(data_partner.LastAction)
           } else {
-            setLastActionYourPartner('Пусто')
+            setLastAction('Пусто')
           }
+        } else {
+          console.log("ID_Partner == null")
         }
       }
     } catch (error) {
@@ -96,6 +104,7 @@ export default function YourLove() {
 
 
   const handleUPDATES = useCallback((payload: any) => {
+    console.log(payload.new.LastAction)
     const newWhatDo = payload.new.WhatDo || 'none';
     setWhatDo(PageWhatDo[newWhatDo]);
     const newMood = payload.new.mood || 'none';
@@ -107,13 +116,12 @@ export default function YourLove() {
     const newPlansForEvening = payload.new.PlansForEvening || 'none';
     setPlansForEvening(PagePlansForEvening[newPlansForEvening]);
     const newAction = payload.new.LastAction;
-    setLastActionYourPartner(newAction);
+    setLastAction(newAction);
   }, []);
 
   const handleUPDATESPartner = useCallback((payload: any) => {
-    
     const newAction = payload.new.LastAction;
-    setLastAction(newAction);
+    setLastActionYourPartner(newAction);
   }, []);
 
 
@@ -124,8 +132,6 @@ export default function YourLove() {
 
   useEffect(() => {
     if (data?.id) {
-
-
       //WHAT DO
       if (data.WhatDo === null) {
         setWhatDo(PageWhatDo['none']);
@@ -160,15 +166,14 @@ export default function YourLove() {
       } else {
         setPlansForEvening(PagePlansForEvening[data.PlansForEvening]);
       }
-      debugger
-      console.log(IDUser);
 
-      const channel0 = supabase.channel('todos')
-        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users_info', filter: `id=eq.${data.id}` }, handleUPDATES)
+      const channel0 = supabase.channel('todos_user_0');
+      const channel1 = supabase.channel('todos_user_1');
+
+      channel0.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users_info', filter: `id=eq.${data.id}` }, handleUPDATES)
         .subscribe();
 
-      const channel1 = supabase.channel('todos')
-        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users_info', filter: `id=eq.${IDUser}` }, handleUPDATESPartner)
+      channel1.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'users_info', filter: `id=eq.${IDUser}` }, handleUPDATESPartner)
         .subscribe();
       return () => {
         supabase.removeChannel(channel0);
@@ -176,11 +181,20 @@ export default function YourLove() {
       };
 
     }
-  }, [data?.id, supabase, handleUPDATES]);
+  }, [data?.id, supabase, handleUPDATES, handleUPDATESPartner]);
 
-
-  if (!data) {
+  if (!data && !IDUser) {
     return <Login />;
+  }
+  if (IDPartner === null) {
+    return (
+      <div className="absolute top-0 left-0 flex justify-center items-center w-full h-full">
+        <div className="flex flex-col justify-center items-center w-11/12 max-h-full px-[2px] py-[12px] bg-color1_2 bg-opacity-10 backdrop-blur-md rounded-[10px] shadow-[0_15px_30px_7px_rgba(0,0,0,0.35)] xl:w-9/12 lg:w-10/12 lg:px-[2px] lg:py-[12px] md:w-11/12 md:px-[2px] md:py-[18px] sm:w-4/6 animate-scaleIn">
+          <h1 className="text-[24px] text-white font-bold text-center text-balance w-full md:text-[32px]">У вас ще немає партнера дабавте його і тільки тоід зможете зайти на цю сторінку</h1>
+          <Link href={'/account'} className=" bg-color4_1 text-white text-[12px] font-semibold mt-[10px] px-[28px] py-1.5 rounded-md hover:bg-color4 focus:bg-color4_3 md:mt-[28px] md:text-[18px] md:rounded-xl">Перейти на сторінку Акаунта</Link>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -197,7 +211,7 @@ export default function YourLove() {
           <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Самопочуття: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{Wellness}</mark></h2>
           <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Плани на вечір: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{PlansForEvening}</mark></h2>
           <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Остання дія: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{LastActionYourPartner}</mark></h2>
-          <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Ваша остання дія: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{LastAction}</mark></h2>
+          <h2 className='text-[16px] font-medium text-white ml-[20px] mr-[12px] mt-[8px] md:text-[18px]'>Ваша остання дія: <mark className="bg-transparent text-[18px] text-white font-bold md:text-[20px]">{LastAction} </mark></h2>
 
         </div>
         <Human />
