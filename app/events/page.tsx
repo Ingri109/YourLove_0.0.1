@@ -4,61 +4,42 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Login from "@/app/Login";
 import Link from "next/link";
 
+interface UserInfo {
+  WhatDo: string | null;
+  mood: string | null;
+  WhatWants: string | null;
+  Wellness: string | null;
+  PlansForEvening: string | null;
+  id: string;
+  id_partner: string;
+}
 
 export default function Events() {
-  const [mood, setMood] = useState<string>('')
+  const [mood, setMood] = useState<string>('');
   const [WhatDo, setWhatDo] = useState<string>('');
   const [WhatWants, setWhatWants] = useState<string>('');
   const [Wellness, setWellness] = useState<string>('');
   const [PlansForEvening, setPlansForEvening] = useState<string>('');
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<UserInfo | null>(null);
   const supabase = createClientComponentClient();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user?.id) {
-          const { data, error } = await supabase.from('users_info').select('WhatDo, mood, WhatWants, Wellness, PlansForEvening, id , id_partner').eq('id', session.user.id).single();
+          const { data, error } = await supabase
+            .from('users_info')
+            .select('WhatDo, mood, WhatWants, Wellness, PlansForEvening, id, id_partner')
+            .eq('id', session.user.id)
+            .single();
           if (error) {
             console.log('Fetch error: ', error);
           } else {
-
-            //WHAT DO
-            if (data.WhatDo === null) {
-              setWhatDo('none');
-            } else {
-              setWhatDo(data.WhatDo);
-            }
-
-            //MOOD
-            if (data.mood === null) {
-              setMood('none');
-            } else {
-              setMood(data.mood);
-            }
-
-            //WHAT WHATS
-            if (data.WhatWants === null) {
-              setWhatWants('none');
-            } else {
-              setWhatWants(data.WhatWants);
-            }
-
-            //WELLNESS
-            if (data.Wellness === null) {
-              setWellness('none');
-            } else {
-              setWellness(data.Wellness);
-            }
-
-            //PLANS FOR EVENING
-            if (data.PlansForEvening === null) {
-              setPlansForEvening('none')
-            } else {
-              setPlansForEvening(data.PlansForEvening);
-            }
-
+            setWhatDo(data.WhatDo ?? 'none');
+            setMood(data.mood ?? 'none');
+            setWhatWants(data.WhatWants ?? 'none');
+            setWellness(data.Wellness ?? 'none');
+            setPlansForEvening(data.PlansForEvening ?? 'none');
             setData(data);
           }
         }
@@ -70,86 +51,43 @@ export default function Events() {
     fetchData();
   }, [supabase, setData, setWhatDo, setMood, setWhatWants, setWellness, setPlansForEvening]);
 
-  const updateWhatDo = async (event: string) => {
-    if (data.id) {
+  const updateField = async (field: string, value: string) => {
+    if (data?.id) {
       try {
-        const { error } = await supabase.from('users_info').update({ WhatDo: event }).eq('id', data.id);
+        const { error } = await supabase
+          .from('users_info')
+          .update({ [field]: value })
+          .eq('id', data.id);
         if (error) {
-          console.log('Update error: ', error);
+          console.log(`Update ${field} error: `, error);
         } else {
-          setWhatDo(event);
+          switch (field) {
+            case 'WhatDo':
+              setWhatDo(value);
+              break;
+            case 'Mood':
+              setMood(value);
+              break;
+            case 'WhatWants':
+              setWhatWants(value);
+              break;
+            case 'Wellness':
+              setWellness(value);
+              break;
+            case 'PlansForEvening':
+              setPlansForEvening(value);
+              break;
+          }
         }
       } catch (error) {
-        console.log('Error updating data: ', error);
+        console.log(`Error updating ${field}: `, error);
       }
     }
-  }
-
-  const updateMood = async (event: string) => {
-    if (data.id) {
-      try {
-        const { error } = await supabase.from('users_info').update({ mood: event }).eq('id', data.id);
-        if (error) {
-          console.log('Update error: ', error);
-        } else {
-          setMood(event);
-        }
-      } catch (error) {
-        console.log('Error updating data: ', error);
-      }
-    }
-  }
-
-  const updateWhatWants = async (event: string) => {
-    if (data.id) {
-      try {
-        const { error } = await supabase.from('users_info').update({ WhatWants: event }).eq('id', data.id);
-        if (error) {
-          console.log('Update error: ', error);
-        } else {
-          setWhatWants(event);
-        }
-      } catch (error) {
-        console.log('Error updating data: ', error);
-      }
-    }
-  }
-
-  const updateWellness = async (event: string) => {
-    if (data.id) {
-      try {
-        const { error } = await supabase.from('users_info').update({ Wellness: event }).eq('id', data.id);
-        if (error) {
-          console.log('Update error: ', error);
-        } else {
-          setWellness(event);
-        }
-      } catch (error) {
-        console.log('Error updating data: ', error);
-      }
-    }
-  }
-
-  const updatePlansForEvening = async (event: string) => {
-    if (data.id) {
-      try {
-        const { error } = await supabase.from('users_info').update({ PlansForEvening: event }).eq('id', data.id);
-        if (error) {
-          console.log('Update error: ', error);
-        } else {
-          setPlansForEvening(event);
-        }
-      } catch (error) {
-        console.log('Error updating data: ', error);
-      }
-    }
-  }
+  };
 
   
   if (!data) { return <Login/> }
-
-  debugger
-  console.log(data.id_partner)
+  
   if(data.id_partner === null){
     return (
       <div className="absolute top-0 left-0 flex justify-center items-center w-full h-full">
@@ -171,48 +109,48 @@ export default function Events() {
           </div>
           <h1 className="text-[24px] font-bold text-white mt-[16px]">Що робиш:</h1>
           <div className="grid grid-cols-2 gap-y-2 gap-x-1.5 w-full justify-between items-center justify-items-stretch max-w-full mt-[10px] xl:gap-x-6 lg:gap-2 md:grid-cols-6 sm:grid-cols-3 sm:gap-2 sm:gap-x-2">
-            <button type="button" onClick={() => { setWhatDo('none'), updateWhatDo('none') }} className={` p-1 rounded-md ${WhatDo === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Нічого</button>
-            <button type="button" onClick={() => { setWhatDo('rest'), updateWhatDo('rest') }} className={` p-1 rounded-md ${WhatDo === 'rest' ? 'bg-pearl_dark shadow-[#DFE315] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#DFE315]'}`}>Відпочиваю</button>
-            <button type="button" onClick={() => { setWhatDo('sleeping'), updateWhatDo('sleeping') }} className={` p-1 rounded-md ${WhatDo === 'sleeping' ? 'bg-pearl_dark shadow-[#0C6DA3] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0C6DA3]'}`}>Сплю</button>
-            <button type="button" onClick={() => { setWhatDo('working'), updateWhatDo('working') }} className={` p-1 rounded-md ${WhatDo === 'working' ? 'bg-pearl_dark shadow-[#AE97F0] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#AE97F0]'}`}>Працюю</button>
-            <button type="button" onClick={() => { setWhatDo('bored'), updateWhatDo('bored') }} className={` p-1 rounded-md ${WhatDo === 'bored' ? 'bg-pearl_dark shadow-[#B9ECF3] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B9ECF3]'}`}>Нудьгую</button>
-            <button type="button" onClick={() => { setWhatDo('playing'), updateWhatDo('playing') }} className={` p-1 rounded-md ${WhatDo === 'playing' ? 'bg-pearl_dark shadow-[#F38562] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#F38562]'}`}>Граю</button>
+            <button type="button" onClick={() => { setWhatDo('none'), updateField('WhatDo', 'none') }} className={` p-1 rounded-md ${WhatDo === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Нічого</button>
+            <button type="button" onClick={() => { setWhatDo('rest'), updateField('WhatDo', 'rest') }} className={` p-1 rounded-md ${WhatDo === 'rest' ? 'bg-pearl_dark shadow-[#DFE315] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#DFE315]'}`}>Відпочиваю</button>
+            <button type="button" onClick={() => { setWhatDo('sleeping'), updateField('WhatDo', 'sleeping') }} className={` p-1 rounded-md ${WhatDo === 'sleeping' ? 'bg-pearl_dark shadow-[#0C6DA3] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0C6DA3]'}`}>Сплю</button>
+            <button type="button" onClick={() => { setWhatDo('working'), updateField('WhatDo', 'working') }} className={` p-1 rounded-md ${WhatDo === 'working' ? 'bg-pearl_dark shadow-[#AE97F0] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#AE97F0]'}`}>Працюю</button>
+            <button type="button" onClick={() => { setWhatDo('bored'), updateField('WhatDo', 'bored') }} className={` p-1 rounded-md ${WhatDo === 'bored' ? 'bg-pearl_dark shadow-[#B9ECF3] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B9ECF3]'}`}>Нудьгую</button>
+            <button type="button" onClick={() => { setWhatDo('playing'), updateField('WhatDo', 'playing') }} className={` p-1 rounded-md ${WhatDo === 'playing' ? 'bg-pearl_dark shadow-[#F38562] shadow-[0_0_10px_8px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#F38562]'}`}>Граю</button>
           </div>
           <h1 className="text-[24px] font-bold text-white mt-[12px]">Який настрій:</h1>
           <div className="grid grid-cols-2 gap-y-2 gap-x-1.5 w-full justify-between items-center justify-items-stretch max-w-full mt-[10px] xl:gap-x-6 lg:gap-2 md:grid-cols-6 sm:grid-cols-3 sm:gap-2 sm:gap-x-2">
-            <button type="button" onClick={() => { setMood('none'), updateMood('none') }} className={` p-1 rounded-md ${mood === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Не знаю</button>
-            <button type="button" onClick={() => { setMood('positive'), updateMood('positive') }} className={` p-1 rounded-md ${mood === 'positive' ? 'bg-pearl_dark shadow-[#20E400] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#20E400]'}`}>Позитивний</button>
-            <button type="button" onClick={() => { setMood('neutral'), updateMood('neutral') }} className={` p-1 rounded-md ${mood === 'neutral' ? 'bg-pearl_dark shadow-[#FFE03E] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#FFE03E]'}`}>Нейтральний</button>
-            <button type="button" onClick={() => { setMood('sad'), updateMood('sad') }} className={` p-1 rounded-md ${mood === 'sad' ? 'bg-pearl_dark shadow-[#4C6EE8] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#4C6EE8]'}`}>Сумний</button>
-            <button type="button" onClick={() => { setMood('insulted'), updateMood('insulted') }} className={` p-1 rounded-md ${mood === 'insulted' ? 'bg-pearl_dark shadow-[#7F1888] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#7F1888]'}`}>Ображений</button>
-            <button type="button" onClick={() => { setMood('angry'), updateMood('angry') }} className={` p-1 rounded-md ${mood === 'angry' ? 'bg-pearl_dark shadow-[#F51D1D] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#F51D1D]'}`}>Злий</button>
+            <button type="button" onClick={() => { setMood('none'), updateField('Mood','none') }} className={` p-1 rounded-md ${mood === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Не знаю</button>
+            <button type="button" onClick={() => { setMood('positive'), updateField('Mood','positive') }} className={` p-1 rounded-md ${mood === 'positive' ? 'bg-pearl_dark shadow-[#20E400] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#20E400]'}`}>Позитивний</button>
+            <button type="button" onClick={() => { setMood('neutral'), updateField('Mood','neutral') }} className={` p-1 rounded-md ${mood === 'neutral' ? 'bg-pearl_dark shadow-[#FFE03E] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#FFE03E]'}`}>Нейтральний</button>
+            <button type="button" onClick={() => { setMood('sad'), updateField('Mood','sad') }} className={` p-1 rounded-md ${mood === 'sad' ? 'bg-pearl_dark shadow-[#4C6EE8] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#4C6EE8]'}`}>Сумний</button>
+            <button type="button" onClick={() => { setMood('insulted'), updateField('Mood','insulted') }} className={` p-1 rounded-md ${mood === 'insulted' ? 'bg-pearl_dark shadow-[#7F1888] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#7F1888]'}`}>Ображений</button>
+            <button type="button" onClick={() => { setMood('angry'), updateField('Mood','angry') }} className={` p-1 rounded-md ${mood === 'angry' ? 'bg-pearl_dark shadow-[#F51D1D] shadow-[0_0_14px_6px_rgba(0,0,0,0.3)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_14px_6px_rgba(0,0,0,0.3)] md:hover:shadow-[#F51D1D]'}`}>Злий</button>
           </div>
           <h1 className="text-[24px] font-bold text-white mt-[12px]">Чого хочеш:</h1>
           <div className="grid grid-cols-2 gap-y-2 gap-x-1.5 w-full justify-between items-center justify-items-stretch max-w-full mt-[10px] xl:gap-x-6 lg:gap-2 md:grid-cols-6 sm:grid-cols-3 sm:gap-2 sm:gap-x-2">
-            <button type="button" onClick={() => { setWhatWants('none'), updateWhatWants('none') }} className={` p-1 rounded-md ${WhatWants === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Нічого</button>
-            <button type="button" onClick={() => { setWhatWants('present'), updateWhatWants('present') }} className={` p-1 rounded-md ${WhatWants === 'present' ? 'bg-pearl_dark shadow-[#B80202] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B80202]'}`}>Подарунок</button>
-            <button type="button" onClick={() => { setWhatWants('attention'), updateWhatWants('attention') }} className={` p-1 rounded-md ${WhatWants === 'attention' ? 'bg-pearl_dark shadow-[#D97E13] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#D97E13]'}`}>Уваги</button>
-            <button type="button" onClick={() => { setWhatWants('alone'), updateWhatWants('alone') }} className={` p-1 rounded-md ${WhatWants === 'alone' ? 'bg-pearl_dark shadow-[#0F57AC] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0F57AC]'}`}>Усамітнитися</button>
-            <button type="button" onClick={() => { setWhatWants('walk'), updateWhatWants('walk') }} className={` p-1 rounded-md ${WhatWants === 'walk' ? 'bg-pearl_dark shadow-[#E1BFFB] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#E1BFFB]'}`}>Гуляти</button>
-            <button type="button" onClick={() => { setWhatWants('sleep'), updateWhatWants('sleep') }} className={` p-1 rounded-md ${WhatWants === 'sleep' ? 'bg-pearl_dark shadow-[#1E12A2] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#1E12A2]'}`}>Спатиии</button>
+            <button type="button" onClick={() => { setWhatWants('none'), updateField('WhatWants','none') }} className={` p-1 rounded-md ${WhatWants === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Нічого</button>
+            <button type="button" onClick={() => { setWhatWants('present'), updateField('WhatWants','present') }} className={` p-1 rounded-md ${WhatWants === 'present' ? 'bg-pearl_dark shadow-[#B80202] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B80202]'}`}>Подарунок</button>
+            <button type="button" onClick={() => { setWhatWants('attention'), updateField('WhatWants','attention') }} className={` p-1 rounded-md ${WhatWants === 'attention' ? 'bg-pearl_dark shadow-[#D97E13] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#D97E13]'}`}>Уваги</button>
+            <button type="button" onClick={() => { setWhatWants('alone'), updateField('WhatWants','alone') }} className={` p-1 rounded-md ${WhatWants === 'alone' ? 'bg-pearl_dark shadow-[#0F57AC] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0F57AC]'}`}>Усамітнитися</button>
+            <button type="button" onClick={() => { setWhatWants('walk'), updateField('WhatWants','walk') }} className={` p-1 rounded-md ${WhatWants === 'walk' ? 'bg-pearl_dark shadow-[#E1BFFB] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#E1BFFB]'}`}>Гуляти</button>
+            <button type="button" onClick={() => { setWhatWants('sleep'), updateField('WhatWants','sleep') }} className={` p-1 rounded-md ${WhatWants === 'sleep' ? 'bg-pearl_dark shadow-[#1E12A2] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#1E12A2]'}`}>Спатиии</button>
           </div>
           <h1 className="text-[24px] font-bold text-white mt-[12px]">Самопочуття: </h1>
           <div className="grid grid-cols-2 gap-y-2 gap-x-1.5 w-full justify-between items-center justify-items-stretch max-w-full mt-[10px] xl:gap-x-6 lg:gap-2 md:grid-cols-6 sm:grid-cols-3 sm:gap-2 sm:gap-x-2">
-            <button type="button" onClick={() => { setWellness('none'), updateWellness('none') }} className={` p-1 rounded-md ${Wellness === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Не знаю</button>
-            <button type="button" onClick={() => { setWellness('good'), updateWellness('good') }} className={` p-1 rounded-md ${Wellness === 'good' ? 'bg-pearl_dark shadow-[#0AB225] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0AB225]'}`}>Добре</button>
-            <button type="button" onClick={() => { setWellness('sick'), updateWellness('sick') }} className={` p-1 rounded-md ${Wellness === 'sick' ? 'bg-pearl_dark shadow-[#0AD2A2] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0AD2A2]'}`}>Хворію</button>
-            <button type="button" onClick={() => { setWellness('bad'), updateWellness('bad') }} className={` p-1 rounded-md ${Wellness === 'bad' ? 'bg-pearl_dark shadow-[#EA3843] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#EA3843]'}`}>Погане</button>
-            <button type="button" onClick={() => { setWellness('normal'), updateWellness('normal') }} className={` p-1 rounded-md ${Wellness === 'normal' ? 'bg-pearl_dark shadow-[#cef933] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#cef933]'}`}>Нормальне</button>
-            <button type="button" onClick={() => { setWellness('lonely'), updateWellness('lonely') }} className={` p-1 rounded-md ${Wellness === 'lonely' ? 'bg-pearl_dark shadow-[#3458D7] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#3458D7]'}`}>Сумотньо</button>
+            <button type="button" onClick={() => { setWellness('none'), updateField('Wellness','none') }} className={` p-1 rounded-md ${Wellness === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Не знаю</button>
+            <button type="button" onClick={() => { setWellness('good'), updateField('Wellness','good') }} className={` p-1 rounded-md ${Wellness === 'good' ? 'bg-pearl_dark shadow-[#0AB225] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0AB225]'}`}>Добре</button>
+            <button type="button" onClick={() => { setWellness('sick'), updateField('Wellness','sick') }} className={` p-1 rounded-md ${Wellness === 'sick' ? 'bg-pearl_dark shadow-[#0AD2A2] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#0AD2A2]'}`}>Хворію</button>
+            <button type="button" onClick={() => { setWellness('bad'), updateField('Wellness','bad') }} className={` p-1 rounded-md ${Wellness === 'bad' ? 'bg-pearl_dark shadow-[#EA3843] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#EA3843]'}`}>Погане</button>
+            <button type="button" onClick={() => { setWellness('normal'), updateField('Wellness','normal') }} className={` p-1 rounded-md ${Wellness === 'normal' ? 'bg-pearl_dark shadow-[#cef933] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#cef933]'}`}>Нормальне</button>
+            <button type="button" onClick={() => { setWellness('lonely'), updateField('Wellness','lonely') }} className={` p-1 rounded-md ${Wellness === 'lonely' ? 'bg-pearl_dark shadow-[#3458D7] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#3458D7]'}`}>Сумотньо</button>
           </div>
           <h1 className="text-[24px] font-bold text-white mt-[12px]">Плани на вечір:</h1>
           <div className="grid grid-cols-2 gap-y-2 gap-x-1.5 w-full justify-between items-center justify-items-stretch max-w-full mt-[10px] xl:gap-x-6 lg:gap-2 md:grid-cols-6 sm:grid-cols-3 sm:gap-2 sm:gap-x-2">
-            <button type="button" onClick={() => { setPlansForEvening('none'), updatePlansForEvening('none') }} className={` p-1 rounded-md ${PlansForEvening === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Немає</button>
-            <button type="button" onClick={() => { setPlansForEvening('timeTogether'), updatePlansForEvening('timeTogether') }} className={` p-1 rounded-md ${PlansForEvening === 'timeTogether' ? 'bg-pearl_dark shadow-[#00ECFB] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#00ECFB]'}`}>Час разом</button>
-            <button type="button" onClick={() => { setPlansForEvening('play'), updatePlansForEvening('play') }} className={` p-1 rounded-md ${PlansForEvening === 'play' ? 'bg-pearl_dark shadow-[#FF852D] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#FF852D]'}`}>Грати</button>
-            <button type="button" onClick={() => { setPlansForEvening('walk'), updatePlansForEvening('walk') }} className={` p-1 rounded-md ${PlansForEvening === 'walk' ? 'bg-pearl_dark shadow-[#F9FD24] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#F9FD24]'}`}>Прогулянка</button>
-            <button type="button" onClick={() => { setPlansForEvening('film'), updatePlansForEvening('film') }} className={` p-1 rounded-md ${PlansForEvening === 'film' ? 'bg-pearl_dark shadow-[#B159F7] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B159F7]'}`}>Фільмик</button>
-            <button type="button" onClick={() => { setPlansForEvening('romance'), updatePlansForEvening('romance') }} className={` p-1 rounded-md ${PlansForEvening === 'romance' ? 'bg-pearl_dark shadow-[#FF5454] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#FF5454]'}`}>Романтика</button>
+            <button type="button" onClick={() => { setPlansForEvening('none'), updateField('PlansForEvening','none') }} className={` p-1 rounded-md ${PlansForEvening === 'none' ? 'bg-pearl_dark shadow-[#B6B6B6] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B6B6B6]'}`}>Немає</button>
+            <button type="button" onClick={() => { setPlansForEvening('timeTogether'), updateField('PlansForEvening','timeTogether') }} className={` p-1 rounded-md ${PlansForEvening === 'timeTogether' ? 'bg-pearl_dark shadow-[#00ECFB] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#00ECFB]'}`}>Час разом</button>
+            <button type="button" onClick={() => { setPlansForEvening('play'), updateField('PlansForEvening','play') }} className={` p-1 rounded-md ${PlansForEvening === 'play' ? 'bg-pearl_dark shadow-[#FF852D] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#FF852D]'}`}>Грати</button>
+            <button type="button" onClick={() => { setPlansForEvening('walk'), updateField('PlansForEvening','walk') }} className={` p-1 rounded-md ${PlansForEvening === 'walk' ? 'bg-pearl_dark shadow-[#F9FD24] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#F9FD24]'}`}>Прогулянка</button>
+            <button type="button" onClick={() => { setPlansForEvening('film'), updateField('PlansForEvening','film') }} className={` p-1 rounded-md ${PlansForEvening === 'film' ? 'bg-pearl_dark shadow-[#B159F7] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#B159F7]'}`}>Фільмик</button>
+            <button type="button" onClick={() => { setPlansForEvening('romance'), updateField('PlansForEvening','romance') }} className={` p-1 rounded-md ${PlansForEvening === 'romance' ? 'bg-pearl_dark shadow-[#FF5454] shadow-[0_0_16px_6px_rgba(0,0,0,0.4)]' : 'bg-pearl shadow-none transition-all duration-200 ease-in delay-100 hover:scale-110 hover:shadow-none md:hover:shadow-[0_0_16px_6px_rgba(0,0,0,0.4)] md:hover:shadow-[#FF5454]'}`}>Романтика</button>
           </div>
         </div>
       </div>

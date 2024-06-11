@@ -11,57 +11,61 @@ import GitHubSVG from '@/assets/icon/mingcute--github-line.svg';
 import EyeOpen from '@/assets/icon/mdi--eye-outline.svg';
 import EyeClose from '@/assets/icon/mdi--eye-off.svg';
 
+interface Data {
+    password: string;
+    email: string;
+    confirmPassword: string;
+}
+
+
 export default function Login() {
-    const [data, setData] = useState<{ password: string, email: string, confirmPassword: string }>({ password: '', email: '', confirmPassword: '' })
-    const [message, setMessage] = useState('');
-    const [messageError, setMessageError] = useState('');
-    const [messageStyle, setMessageStyle] = useState('');
-    const [errorStyle, setErrorStyle] = useState(false);
-    const [mesagePasswordStyle, setMesagePasswordStyle] = useState(false);
+    const [data, setData] = useState<Data>({ password: '', email: '', confirmPassword: '' });
+    const [message, setMessage] = useState<string>('');
+    const [messageSignUp, setMessageSignUp] = useState<string>('');
+    const [messageError, setMessageError] = useState<string>('');
+    const [messageStyle, setMessageStyle] = useState<string>('');
+    const [errorStyle, setErrorStyle] = useState<boolean>(false);
+    const [messagePasswordStyle, setMessagePasswordStyle] = useState<boolean>(false);
     const [showPassword, setShowPassword] = useState<boolean>(false);
-    const [userSession, setUserSession] = useState<any>(null);
-    const [checkSend, setCheckSend] = useState<boolean>(false);
-    const [checkLogin, setCheckLogin] = useState(true);
-    const [progress, setProgress] = useState('bg-color2_2 w-full');
-    const router = useRouter()
+    const [checkLogin, setCheckLogin] = useState<boolean>(true);
+    const [progress, setProgress] = useState<string>('bg-color2_2 w-full');
     const [resetPassword, setResetPassword] = useState<boolean>(false);
-    const [loading, setLoading] = useState(true);
+    const router = useRouter();
     const supabase = createClientComponentClient();
+    
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setData((prev) => ({
             ...prev,
-            [name]: value
-        }));
-    }
-
-    const clearConfirmPassword = () => {
-        setData(prevData => ({
-            ...prevData,
-            confirmPassword: ''
+            [name]: value,
         }));
     };
 
-    const GitHud = async () => {
+    const clearConfirmPassword = () => {
+        setData((prevData) => ({
+            ...prevData,
+            confirmPassword: '',
+        }));
+    };
+
+    const GitHub = async () => {
         const { data } = await supabase.auth.signInWithOAuth({
             provider: 'github',
             options: {
-                redirectTo: `${window.location.origin}/auth/callback`
-            }
+                redirectTo: `${window.location.origin}/auth/callback`,
+            },
         });
-
     };
 
     const Discord = () => {
         supabase.auth.signInWithOAuth({
             provider: 'discord',
             options: {
-                redirectTo: `${window.location.origin}/auth/callback`
-            }
-        })
-
-    }
+                redirectTo: `${window.location.origin}/auth/callback`,
+            },
+        });
+    };
 
     const Google = () => {
         supabase.auth.signInWithOAuth({
@@ -71,58 +75,43 @@ export default function Login() {
                     access_type: 'offline',
                     prompt: 'consent',
                 },
-                redirectTo: `${window.location.origin}/auth/callback`
+                redirectTo: `${window.location.origin}/auth/callback`,
             },
-        })
-    }
-
+        });
+    };
 
     useEffect(() => {
-        // async function getSession() {
-        //     const { data: { session } } = await supabase.auth.getSession();
-        //     setUserSession(session)
-        //     if (session) {
-        //         // router.push('/');
-        //     }
-        //     setLoading(false)
-        // }
-
         if (!data.email && !data.password && !data.confirmPassword) {
             setErrorStyle(false);
             setProgress('bg-color2_2 w-full');
-            setMesagePasswordStyle(false);
+            setMessagePasswordStyle(false);
             setMessageError('');
         }
 
-
         if (data.password.length === 0) {
-            setProgress('bg-color2_2 w-full')
-            setMessage('')
-            setMessageStyle('')
+            setProgress('bg-color2_2 w-full');
+            setMessage('');
+            setMessageStyle('');
         } else if (data.password.length < 6) {
-            setProgress('bg-[#D13232] w-1/3')
-            setMessage('Пароль занадто короткий')
-            setMessageStyle('text-[#D13232]')
+            setProgress('bg-[#D13232] w-1/3');
+            setMessage('Пароль занадто короткий');
+            setMessageStyle('text-[#D13232]');
         } else if (!/[A-Z]/.test(data.password) || !/[\W_]/.test(data.password) || !/\d/.test(data.password)) {
-            setProgress('bg-[#F19829] w-2/3')
-            setMessage('Додайте Велику букву або симоли, для складності')
-            setMessageStyle('text-[#F19829]')
+            setProgress('bg-[#F19829] w-2/3');
+            setMessage('Додайте Велику букву або символи, для складності');
+            setMessageStyle('text-[#F19829]');
         } else if (data.password.length >= 12) {
-            setProgress('bg-[#26C318] w-full')
-            setMessage('Чудовий пароль')
-            setMessageStyle('text-[#26C318]')
+            setProgress('bg-[#26C318] w-full');
+            setMessage('Чудовий пароль');
+            setMessageStyle('text-[#26C318]');
         }
-
-
-        // getSession();
-    }, [data.password, data.email, data.confirmPassword, router])
-
-
+    }, [data.password, data.email, data.confirmPassword, router]);
 
     const handleSignUp = async () => {
         const { password, confirmPassword, email } = data;
+
         if (!email || !password) {
-            setMessageError("Будь ласка, введіть email та пароль.");
+            setMessageError('Будь ласка, введіть email та пароль.');
             return;
         }
 
@@ -130,13 +119,12 @@ export default function Login() {
             setMessage('');
             setMessageError('Ваші паролі невірні');
             setProgress('bg-[#D13232] w-full');
-            setMesagePasswordStyle(true);
+            setMessagePasswordStyle(true);
         } else {
             try {
-                // Перевіряємо чи існує вже акаунт з таким email
                 const { error: signInError } = await supabase.auth.signInWithPassword({
                     email,
-                    password
+                    password,
                 });
 
                 if (signInError && signInError.message !== 'Invalid login credentials') {
@@ -144,16 +132,16 @@ export default function Login() {
                     setErrorStyle(true);
                     setMessage('');
                     setProgress('bg-[#D13232] w-full');
-                    setMesagePasswordStyle(true);
+                    setMessagePasswordStyle(true);
                     return;
                 }
 
                 const { error } = await supabase.auth.signUp({
-                    email,
-                    password,
+                    email: email,
+                    password: password,
                     options: {
-                        emailRedirectTo: `${window.location.origin}/auth/callback`
-                    }
+                        emailRedirectTo: `${window.location.origin}/auth/callback`,
+                    },
                 });
 
                 if (error) {
@@ -161,7 +149,7 @@ export default function Login() {
                     setErrorStyle(true);
                     setMessage('');
                     setProgress('bg-[#D13232] w-full');
-                    setMesagePasswordStyle(true);
+                    setMessagePasswordStyle(true);
                     switch (error.message) {
                         case 'Password should be at least 6 characters':
                             setMessageError('Пароль має містити щонайменше 6 символів.');
@@ -178,8 +166,13 @@ export default function Login() {
                 } else {
                     setErrorStyle(false);
                     setProgress('bg-color2_2 w-full');
-                    setMesagePasswordStyle(false);
-                    setMessageError('Реєстрація успішна! Будь ласка, перевірте ваш email для підтвердження.');
+                    setMessagePasswordStyle(false);
+                    setMessageError('');
+                    setMessageSignUp('Реєстрація успішна! Будь ласка, перевірте ваш email для підтвердження.');
+                    const timer = setTimeout(() => {
+                        setMessageSignUp('');
+                    }, 5000);
+                    return () => clearTimeout(timer);
                 }
             } catch (error) {
                 console.log('Невідома помилка під час реєстрації:', error);
@@ -188,56 +181,55 @@ export default function Login() {
         }
     };
 
-
-
     const handleSignIn = async () => {
-        const { password, email } = data
+        const { password, email } = data;
+
         if (!email || !password) {
-            setMessageError("Будь ласка, введіть email та пароль.");
+            setMessageError('Будь ласка, введіть email та пароль.');
             return;
         }
 
         try {
-            const { error } = await supabase.auth.signInWithPassword({ email, password });
+            const { error } = await supabase.auth.signInWithPassword({ email: email, password: password });
 
             if (error) {
                 console.log(error);
                 setErrorStyle(true);
                 switch (error.message) {
                     case 'Invalid login credentials':
-                        setMessageError("Email або пароль є не правильними, перевірте дані.");
+                        setMessageError('Email або пароль є не правильними, перевірте дані.');
                         break;
                     case 'Email not confirmed':
-                        setMessageError("Ваш email не підтверджено. Будь ласка, перевірте свою пошту.");
+                        setMessageError('Ваш email не підтверджено. Будь ласка, перевірте свою пошту.');
                         break;
                     case 'Network error':
-                        setMessageError("Проблема з мережею. Будь ласка, спробуйте пізніше.");
+                        setMessageError('Проблема з мережею. Будь ласка, спробуйте пізніше.');
                         break;
                     default:
-                        setMessageError("Виникла помилка під час входу. Спробуйте пізніше.");
+                        setMessageError('Виникла помилка під час входу. Спробуйте пізніше.');
                 }
             } else {
                 setErrorStyle(false);
+                router.push('registerForm');
             }
-
         } catch (error) {
             console.log('Помилка під час входу:', error);
-            setMessageError("Невідома помилка. Будь ласка, зверніться до підтримки.");
+            setMessageError('Невідома помилка. Будь ласка, зверніться до підтримки.');
         }
-    }
+    };
 
-
-    const ResetPassworld = async () => {
+    const ResetPassword = async () => {
         try {
             const { data: resetData, error } = await supabase.auth.resetPasswordForEmail(data.email, {
-                redirectTo: `${window.location.href}/reset`
+                redirectTo: `${window.location.href}/reset`,
             });
-            setCheckSend(true)
+            if (error) {
+                console.log('ResetPassword error:', error);
+            }
         } catch (error) {
-            console.log('ResetPassworld error:', error);
+            console.log('ResetPassword error:', error);
         }
-
-    }
+    };
 
 
 
@@ -262,7 +254,7 @@ export default function Login() {
                             </div>
                             <button
                                 type="button"
-                                onClick={ResetPassworld}
+                                onClick={ResetPassword}
                                 className="w-full max-w-[266.6px] mt-7 p-3 rounded-md bg-color4 bg-opacity-70 text-[18px] font-medium text-white shadow-color3 shadow-[0_0px_30px_0.5px_rgba(0,0,0,0.2)] hover:scale-105 transition-all duration-75 delay-150 hover:bg-color4_3 hover:bg-opacity-80 focus:outline-none "
                             >
                                 Надіслати повідомлення
@@ -348,9 +340,15 @@ export default function Login() {
                                         onChange={handleChange}
                                         className="from__field text-xl" placeholder="confirmPassword" id="confirmPassword" required></input>
                                     <label className={`from__label top-0 absolute block ${errorStyle ? 'text-[#D13232]' : 'text-color2_2'} transition-all duration-500 delay-150`}>Confirm Password</label>
-                                    <div className={`${mesagePasswordStyle ? 'bg-[#D13232]' : 'bg-color2_2'}  w-full h-[3px] rounded-[2px] transition-all duration-500 delay-150`}></div>
+                                    {data.password === '' ? null :
+                                        <label className="absolute block left-[228px] top-[24px] w-[26px] h-[26px]" onClick={() => setShowPassword(!showPassword)}>
+                                            <Image alt="checkPassword" className=" w-[26px] h-[26px]" src={showPassword ? EyeOpen : EyeClose}></Image>
+                                        </label>
+                                    }
+                                    <div className={`${messagePasswordStyle ? 'bg-[#D13232]' : 'bg-color2_2'}  w-full h-[3px] rounded-[2px] transition-all duration-500 delay-150`}></div>
                                 </div>
                                 <div className="flex justify-start w-full mt-1 max-w-[250px]"><p className='text-[10px] text-[#D13232] break-words font-medium decoration-2 underline-offset-4'>{messageError}</p></div>
+                                <div className="flex justify-start w-full mt-1 max-w-[250px]"><p className='text-[10px] text-[#35a43b] break-words font-medium decoration-2 underline-offset-4'>{messageSignUp}</p></div>
                                 <button
                                     type="button"
                                     onClick={handleSignUp}
@@ -362,7 +360,7 @@ export default function Login() {
                             </>
                         }
                         <div className="flex justify-around items-center mt-[50px] space-x-7 ">
-                            <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={GitHud}><Image className="w-[36px] h-[36px]" src={GitHubSVG} alt="GitHub" /></button>
+                            <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={GitHub}><Image className="w-[36px] h-[36px]" src={GitHubSVG} alt="GitHub" /></button>
                             <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={Discord}><Image className="w-[36px] h-[36px]" src={DiscordSVG} alt="Discord" /></button>
                             <button type="button" className="bg-white bg-opacity-20 backdrop-blur-sm rounded-full p-2 shadow-color3 shadow-[0_0px_30px_8px_rgba(0,0,0,0.4)] transition-all duration-250 delay-350 hover:scale-110" onClick={Google}><Image className="w-[36px] h-[36px]" src={GoogleSVG} alt="Google" /></button>
                         </div>
