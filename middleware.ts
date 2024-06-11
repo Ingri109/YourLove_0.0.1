@@ -16,7 +16,6 @@ export async function middleware(req: NextRequest) {
   }
   let publivUrls = ["/", "/auth/callback"];
 
-  console.log(data);
   if (session?.user?.id) {
     if (!data) {
       publivUrls.push("/registerForm");

@@ -38,11 +38,7 @@ export default function Reset() {
         const supabase = createClientComponentClient()
         const { password, confirmPassword } = data
         if (password !== confirmPassword) return alert('Ваші паролі невірні');
-
-        console.log(password)
         typeof password === 'string'
-        console.log(password)
-
         try {
             const { data: resetData, error } = await supabase.auth.updateUser({
                 password: data.password
