@@ -1,5 +1,8 @@
 describe('template spec', () => {
   it('passes', () => {
-    cy.visit('https://your-love-0-0-1-fzi8v81rv-ingri109s-projects.vercel.app/')
+    cy.visit('http://localhost:3000/login')
+
+    cy.get('#Email').type('fake@email.com')
+    cy.get('#Email').should('have.value', 'fake@email.com')
   })
 })
