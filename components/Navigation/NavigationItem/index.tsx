@@ -3,16 +3,18 @@ import Image from "next/image";
 import AccountActivSVG from '@/assets/img/accountActiv.svg';
 import AccountSVG from '@/assets/img/account.svg';
 import { useState } from 'react';
+import { useLocale } from 'next-intl';
 
 const NavigationItem = ({ to, pageName, currentPage }: { to: string; pageName: string, currentPage: string }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const locale = useLocale();
 
   const Account = currentPage === 'Account' ? AccountActivSVG : (isHovered ? AccountActivSVG : AccountSVG);
   return (
     <>
       {
         pageName === 'Account' ?
-          <Link href="/account">
+          <Link href={`/${locale}/account`}>
             <Image src={Account}
               alt={currentPage === 'Account' ? 'Active Account Icon' : 'Account Icon'}
               onMouseEnter={() => setIsHovered(true)}
@@ -23,8 +25,8 @@ const NavigationItem = ({ to, pageName, currentPage }: { to: string; pageName: s
           <li>
             <Link
               className={`flex font-Source items-center justify-center ${currentPage === pageName ? ' text-header_act ' : 'text-header'} text-[12px] py-[3px] px-[4px] mr-[8px] md:mr-[28px] md:text-[16px] transition delay-100 duration-300 relative overflow-hidden hover:text-header_act group `}
-              href={to}>
-              {pageName === 'Events'? 'Події': pageName}
+              href={`/${locale}/${to}`}>
+              {pageName}
               {currentPage === pageName ?
                 <div className="absolute bottom-0 left-0 w-full h-0.5 bg-header_act rounded"></div>
                 :

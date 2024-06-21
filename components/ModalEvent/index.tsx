@@ -4,10 +4,10 @@ import Head from "../body_parts/Head";
 import Hand from "../body_parts/Hand";
 import Body from "../body_parts/Body";
 import Leg from "../body_parts/Leg";
-
-
+import { useTranslations } from 'next-intl';
 
 const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) => {
+    const t = useTranslations('YourLove')
     const backdrop = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState<boolean>(true);
     const [nameAction, setNameAction] = useState<string>('');
@@ -61,9 +61,9 @@ const ModalEvents =  ({ name, onClose }: { name: string; onClose: () => void }) 
                         {isOpen
                             ?
                             <>
-                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-t-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Cute') }}>Мілі дії</div>
-                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Painful') }}>Болючі дії</div>
-                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-b-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { onClose() , alert('Ця дія тимчасово не доступна') }}>Хтиві дії</div>
+                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-t-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Cute') }}>{t('Cute')}</div>
+                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { setIsOpen(false); setNameAction('Painful') }}>{t('Painful')}</div>
+                                <div className="bg-color1 bg-opacity-80 backdrop-blur-md px-[46px] py-[6px] rounded-b-[12px] text-center text-[16px] font-semibold text-white w-full" onClick={() => { onClose() , alert(t('ErrorLustful')) }}>{t('Lustful')}</div>
                             </>
                             :
                             <>

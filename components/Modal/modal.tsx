@@ -5,7 +5,7 @@ import NewName from '../Form/NewName/newName';
 import Requests from '../Form/Requests/requests';
 import NewPassword from '../Form/NewPassword/newPassword';
 import { useRouter } from 'next/navigation';
-
+import { useTranslations } from 'next-intl';
 
 interface UserInfo {
     id: string;
@@ -33,6 +33,7 @@ interface UserInfo {
   }
   
   const Modal: React.FC<ModalProps> = ({ Userdata, requestsInfo, chekModel, onClose }) => {
+    const t = useTranslations('Account');
     const backdrop = useRef<HTMLDivElement>(null);
     const modalRootRef = useRef<HTMLDivElement | null>(null);
     const [isMounted, setIsMounted] = useState<boolean>(false);
@@ -138,13 +139,13 @@ interface UserInfo {
                 {requestsInfo.length > 0 ? (
                   <>
                     <h1 className="text-white text-[24px] font-extrabold tracking-wider mb-5 md:text-[28px] sm:text-[26px]">
-                      Ваші Запрошення
+                    {t('YourInvitation')}
                     </h1>
                     <Requests requestsInfo={requestsInfo} acceptRequest={acceptRequest} onClose={onClose} />
                   </>
                 ) : (
                   <h1 className="text-white text-[28px] font-extrabold tracking-wider">
-                    У вас немає запрошень
+                   {t('NotInvitation')}
                   </h1>
                 )}
               </form>
@@ -152,7 +153,7 @@ interface UserInfo {
             {chekModel === 'DelRequests' && (
               <form className="flex flex-col justify-center items-center w-11/12 bg-color3 bg-opacity-50 backdrop-blur-2xl rounded-[16px] py-6 px-3 space-y-2 animate-scaleIn md:px-6 md:w-auto sm:w-9/12">
                 <h1 className="text-white text-[18px] text-center w-full font-semibold tracking-wider mb-3 md:mb-4 md:w-auto">
-                  Ви впевнені, що хочете видалити партнера?
+                {t('DelParnter')}
                 </h1>
                 <div className="flex justify-center items-center space-x-3 md:space-x-5">
                   <button
@@ -162,14 +163,14 @@ interface UserInfo {
                     }}
                     className="text-ivory text-[14px] font-medium px-3 py-1 bg-color4_1 rounded-lg hover:bg-color4_3 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color4_2 md:rounded-xl md:text-[16px] md:px-4 md:py-2"
                   >
-                    Так, я хочу видалити
+                   {t('DelParnterYes')}
                   </button>
                   <button
                     type="button"
                     onClick={onClose}
                     className="text-ivory text-[14px] font-medium px-3 py-1 rounded-lg bg-color3_2 hover:bg-color3_1 shadow-none hover:shadow-[0_1px_30px_2px_rgba(0,0,0,0.30)] hover:shadow-color3_2 md:rounded-xl md:text-[16px] md:px-4 md:py-2"
                   >
-                    Ні
+                    {t('DelParnterNo')}
                   </button>
                 </div>
               </form>

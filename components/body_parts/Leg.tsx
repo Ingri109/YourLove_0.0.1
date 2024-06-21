@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useTranslations } from 'next-intl';
 
 const Leg = ({ nameAction, onClose }: { nameAction: string, onClose: () => void}) => {
+    const t = useTranslations('YourLove');
     const [ID, setID] = useState<any>(null);
     const supabase = createClientComponentClient();
 
     const actions: { [key: string]: string[] } = {
         'Cute': [
-            'Лягти на ляшку',
-            'Легенько шльопнути',
-            'Жмякати ляшки',
+            'LayDownBack',
+            'SlapLightly',
+            'SqueezeBottom',
         ],
         'Painful': [
-            'Копнути',
-            'Вдрити по жопі',
-            'Вкусити за ляшку',
-            'Щіпнути',
+            'Kick',
+            'KickAss',
+            'BiteLay',
+            'Pinch',
         ],
         'Lustful': [
             '-------',
@@ -24,6 +26,16 @@ const Leg = ({ nameAction, onClose }: { nameAction: string, onClose: () => void}
             '-------',
         ],
     };
+
+    const Action: {[key: string]: string} = {
+        'LayDownBack': t('LayDownBack'),
+        'SlapLightly': t('SlapLightly'),
+        'SqueezeBottom': t('SqueezeBottom'),
+        'Kick': t('Kick'),
+        'KickAss': t('KickAss'),
+        'BiteLay': t('BiteLay'),
+        'Pinch': t('Pinch')
+    }
 
     const actionItems = actions[nameAction] || [];
 
@@ -73,7 +85,7 @@ const Leg = ({ nameAction, onClose }: { nameAction: string, onClose: () => void}
                     onClick={() => {addAction(action), onClose()}}
                     className={`bg-color1 bg-opacity-80 backdrop-blur-md py-[6px] text-center text-[16px] font-semibold text-white w-full 
                         ${index === 0 ? 'rounded-t-[12px]' : index === actionItems.length - 1 ? 'rounded-b-[12px]' : ''} ${nameAction === 'Painful' ? 'px-[32px]' : 'px-[46px]'}`}>
-                    {action}
+                    {Action[action]}
                 </div>
             ))}
         </>

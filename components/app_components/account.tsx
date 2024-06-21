@@ -2,12 +2,14 @@
 
 import Modal from "@/components/Modal/modal";
 import InfoUser from "./infoUser";
+import { useTranslations } from 'next-intl';
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import AddPartner from "./addpartner";
 import InfoPartner from "./infoPartner";
 import Link from "next/link";
+
 
 interface UserInfo {
     id: string;
@@ -43,6 +45,7 @@ interface UserInfo {
   }
   
   export default function Account({ Userdata, partnerData, requestsInfo }: AccountProps) {
+    const t = useTranslations('Account');
     const [opentModal, setOpenModal] = useState<boolean>(false);
     const [chekModel, setChekModel] = useState<string>('');
   
@@ -59,16 +62,16 @@ interface UserInfo {
       <div className="flex items-center justify-center w-full h-screen">
         <div className="w-[900px] flex flex-col justify-center items-center bg-color3_1 bg-opacity-20 backdrop-blur-md rounded-[10px] px-[34px] py-[24px]">
           <p className="w-[900px] text-balance text-center text-color3_2 text-[28px] font-bold tracking-wide ">
-            Ви не можете зайти в акаунт тому, що у вас немає Aватара.
+            {t('NotAvatar1')}
           </p>
           <p className="text-balance text-center text-cold_season text-[16px] font-medium tracking-wide mt-[16px]">
-            <span className="text-color1_2 text-[18px] font-bold"> Аватар</span> це віртальна особистість, яка буде показана вашому партнеру.
+            <span className="text-color1_2 text-[18px] font-bold"> {t('NotAvatar2')}</span> {t('NotAvatar3')}.
           </p> 
           <p className="text-balance text-center text-cold_season text-[16px] font-medium tracking-wide mt-[8px]">
-            Для того щоб створити аватара натисність на кнопку <span className="text-color2_2 font-bold">створити аватара</span>
+          {t('NotAvatar4')} <span className="text-color2_2 font-bold">{t('buttonNotAvater')}</span>.
           </p>
           <Link href={'/registerForm'} className="bg-color4_1 bg-opacity-60 backdrop-blur-md text-white text-[18px] font-semibold px-[40px] py-[6px] mt-9 rounded-[14px] transition-all duration-200 delay-150 ease-out shadow-[0_1px_30px_6px_rgba(0,0,0,0.40)] shadow-color1_3 hover:bg-color4_3 hover:bg-opacity-80 hover:backdrop-blur-m hover:shadow-[0_0_40px_12px_rgba(0,0,0,0.40)] hover:shadow-color1_3">
-            Cтворити аватара
+          {t('buttonNotAvater')}
           </Link>
         </div>
       </div>
@@ -84,27 +87,27 @@ interface UserInfo {
                   <InfoUser Userdata={Userdata} />
                   <div className="flex flex-col justify-between items-center mb-[16px] space-x-0 lg:space-x-2 lg:flex-row lg:mt-[70px] w-full">
                     <button onClick={() => { setOpenModal(true); setChekModel('Password') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">
-                      Змінити пароль
+                    {t('newPassword')}
                     </button>
                     <button onClick={() => { setOpenModal(true); setChekModel('Name') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">
-                      Змінити ім’я
+                    {t('newName')}
                     </button>
                     {Userdata.engaged === false
                       ? <button onClick={() => { setOpenModal(true); setChekModel('Requests') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full h-min px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">
-                        Запрошення
+                        {t('invitation')}
                       </button>
                       : <button onClick={() => { setOpenModal(true); setChekModel('DelRequests') }} className="bg-color4 whitespace-nowrap text-white text-[14px] font-bold tracking-wide w-full h-min px-0 py-[6px] mt-[10px] rounded-[14px] shadow-[0_0_20px_1px_rgba(0,0,0,0.4)] xl:px-[20px] lg:min-w-min lg:max-w-full lg:w-full lg:mt-0 lg:px-[11px] lg:py-[5px] transition duration-200 ease-in-out hover:bg-color4_1 hover:shadow-[0_0_20px_4px_rgba(0,0,0,0.35)] hover:scale-105 active:bg-color4 focus:bg-color4">
-                        Видалити партнера
+                        {t('DelParnterButton')}
                       </button>
                     }
                   </div>
                 </div>
-                {Userdata.engaged === false ? <AddPartner Userdata={Userdata} /> : <InfoPartner partnerData={partnerData} />}
+                {Userdata.engaged === false ? <AddPartner Userdata={Userdata} /> : partnerData && <InfoPartner partnerData={partnerData} />}
               </div>
             </div>
             <div className="flex justify-end items-end mt-[24px] mr-[20px] lg:mt-[60px]">
               <button onClick={handleLogout} className="bg-color1 bg-opacity-40 backdrop-blur-lg py-[5px] px-[20px] rounded-[16px] text-white text-[16px] shadow-[0_1px_30px_6px_rgba(0,0,0,0.40)] shadow-color4_3 transition-all delay-100 duration-200 ease-in hover:bg-color1 hover:bg-opacity-70 hover:backdrop-blur hover:scale-110 hover:shadow-[0_1px_30px_1px_rgba(0,0,0,0.20)] hover:shadow-color1_2">
-                Вийти з акаунта
+              {t('exit')}
               </button>
             </div>
           </div>

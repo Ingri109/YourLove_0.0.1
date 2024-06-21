@@ -1,21 +1,23 @@
 import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useTranslations } from 'next-intl';
 
 const Hand = ({ nameAction, onClose }: { nameAction: string, onClose: () => void }) => {
+    const t = useTranslations('YourLove');
     const [ID, setID] = useState<any>(null);
     const supabase = createClientComponentClient();
 
     const actions: { [key: string]: string[] } = {
         'Cute': [
-            'Взяти за руку',
-            'Обянти за руку',
-            'Ніжно щіпнути',
+            'HoldHand',
+            'HugHand',
+            'GentlyPinch',
         ],
         'Painful': [
-            'Вкусити за палекь',
-            'Вкусити за руку',
-            'Боляче щіпнути',
-            'Вдарити',
+            'BiteFinger',
+            'BiteHand',
+            'HurtsPinch',
+            'hit',
         ],
         'Lustful': [
             '-------',
@@ -24,6 +26,17 @@ const Hand = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
             '-------',
         ],
     };
+
+    const Action: {[key: string]: string} = {
+        'HoldHand': t('HoldHand'),
+        'HugHand': t('HugHand'),
+        'GentlyPinch': t('GentlyPinch'),
+        'BiteFinger': t('BiteFinger'),
+        'BiteHand': t('BiteHand'),
+        'HurtsPinch': t('HurtsPinch'),
+        'hit': t('hit')
+    }
+
     const actionItems = actions[nameAction] || [];
 
 
@@ -74,7 +87,7 @@ const Hand = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
                         onClick={() => { addAction(action), onClose() }}
                         className={`bg-color1 bg-opacity-80 backdrop-blur-md py-[6px] text-center text-[16px] font-semibold text-white w-full 
                         ${index === 0 ? 'rounded-t-[12px]' : index === actionItems.length - 1 ? 'rounded-b-[12px]' : ''} ${nameAction === 'Painful' ? 'px-[32px]' : 'px-[46px]'}`}>
-                        {action}
+                        {Action[action]}
                     </div>
                 </>
             ))}

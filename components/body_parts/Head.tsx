@@ -1,22 +1,24 @@
 import { useState, useEffect } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useTranslations } from 'next-intl';
 
 const Head = ({ nameAction, onClose }: { nameAction: string, onClose: () => void }) => {
+    const t = useTranslations('YourLove');
     const [ID, setID] = useState<any>(null);
     const supabase = createClientComponentClient();
 
     const actions: { [key: string]: string[] } = {
         'Cute': [
-            'Поцілувати в губи',
-            'Поцілувати в щоку',
-            'Погладити по голові',
-            'Пощупати щочку',
+            'KissLips',
+            'KissCheek',
+            'PatHead',
+            'FeelCheek',
         ],
         'Painful': [
-            'Дати підзатильник',
-            'Вдарити по щоці',
-            'Вкусити за щоку',
-            'Вдарити по голові',
+            'GiveLittleNudge',
+            'SlapCheek',
+            'BiteCheek',
+            'HitHead',
         ],
         'Lustful': [
             '-------',
@@ -25,6 +27,17 @@ const Head = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
             '-------',
         ],
     };
+
+    const Action: {[key: string]: string} = {
+        'KissLips': t('KissLips'),
+        'KissCheek': t('KissCheek'),
+        'PatHead': t('PatHead'),
+        'FeelCheek': t('FeelCheek'),
+        'GiveLittleNudge': t('GiveLittleNudge'),
+        'SlapCheek': t('SlapCheek'),
+        'BiteCheek': t('BiteCheek'),
+        'HitHead': t('HitHead')
+    }
 
     const actionItems = actions[nameAction] || [];
 
@@ -75,7 +88,7 @@ const Head = ({ nameAction, onClose }: { nameAction: string, onClose: () => void
                         onClick={() => { addAction(action), onClose() }}
                         className={`bg-color1 bg-opacity-80 backdrop-blur-md py-[6px] text-center text-[16px] font-semibold text-white w-full 
                         ${index === 0 ? 'rounded-t-[12px]' : index === actionItems.length - 1 ? 'rounded-b-[12px]' : ''} ${nameAction === 'Painful' ? 'px-[32px]' : 'px-[30px]'}`}>
-                        {action}
+                        {Action[action]}
                     </div>
                 </>
             ))}
