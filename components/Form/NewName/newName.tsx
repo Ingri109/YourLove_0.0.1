@@ -8,8 +8,7 @@ function NewName({ onClose, SaveName }: { onClose: () => void, SaveName: (newNam
     const t = useTranslations('Account');
 
     const onSaveName = () => {
-        const trimmedName = newName.trim(); // Видаляємо пробіли з початку та кінця рядка
-        const t = useTranslations('Account');
+        const trimmedName = newName.trim(); 
         if (trimmedName === '') {
             setMessage(t('ModalNewNameMessage1'));
         } else if (trimmedName.length < 4) {
