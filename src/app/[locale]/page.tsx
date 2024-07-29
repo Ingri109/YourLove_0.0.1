@@ -14,7 +14,6 @@ const Home = () => {
                 <div className='flex flex-col items-center justify-between xl:flex-row'>
                     <Image className='h-[400px] w-[360px] ml-[0px] mt-[10px] xl:h-[600px] xl:w-[500px] xl:ml-[100px] xl:mt-[20px]' src={Kiss} alt='Skrin sait'></Image>
                     <div className='mr-[20px] ml-[20px] lg:mr-[200px] lg:ml-[100px]'>
-                        <h1 className='text-white text-[20px]'>{t('title')}</h1>
                         <h1 className=' text-color5 text-[28px] font-semibold text-center mb-[10px] text-balanc xl:mb-[25px] lg:text-[32px] lg:font-bold'>About the site</h1>
                         <p className=' text-[12px] text-white font-medium tracking-normal text-justify md:text-[18px]'>Welcome to our site, this site is for people in a relationship to make your love even stronger. The main advantage of this site is that you can kiss your virtual partner in real time, this virtual partner has no emotions or thoughts of his own, but he is directly connected to your partner, so when you do something with the VP (Virtual Partner), your partner will be able to see what you would do with him if you were nearby. You can also find out the state of your partner, whether he/she is sad, happy, sleeping or possibly sick, all this and even more you can see when you add your partner to this site. This site was created for romantic events, so that when you are at a distance you can at least somehow interact with your partner.</p>
                     </div>
